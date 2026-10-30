@@ -37,6 +37,34 @@
     }
   };
 
+  // ---------- Избран клас / група (помни се в този браузър) ----------
+
+  const groupKey = (stage) => `ucha-group-${stage.id}`;
+  function selectedGroup(stage) {
+    if (!stage.groups) return 'all';
+    let g = null;
+    try { g = localStorage.getItem(groupKey(stage)); } catch (e) { /* няма достъп */ }
+    return g && (g === 'all' || stage.groups[g]) ? g : Object.keys(stage.groups)[0];
+  }
+  function setSelectedGroup(stage, g) {
+    try { localStorage.setItem(groupKey(stage), g); } catch (e) { /* няма достъп */ }
+  }
+  const inGroup = (t, g) => g === 'all' || String(t.group) === g;
+
+  function groupPicker(stage) {
+    if (!stage.groups) return '';
+    const g = selectedGroup(stage);
+    const label = stage.groupLabel || 'Клас';
+    return `
+      <label class="group-picker">
+        <span>${esc(label)}:</span>
+        <select data-group-select="${stage.id}">
+          ${Object.entries(stage.groups).map(([k, v]) => `<option value="${k}" ${k === g ? 'selected' : ''}>${esc(v)}</option>`).join('')}
+          <option value="all" ${g === 'all' ? 'selected' : ''}>Всички</option>
+        </select>
+      </label>`;
+  }
+
   // ---------- Четене на глас ----------
 
   const canSpeak = 'speechSynthesis' in window;
@@ -265,10 +293,16 @@
         </div>
       </header>
       <p class="lead">${esc(stage.description)}</p>
+      ${groupPicker(stage)}
 
       <section class="subject-grid" aria-label="Предмети">
-        ${stage.subjects.map((sub) => {
-          const n = lessonCount(sub);
+        ${stage.subjects.filter((sub) => {
+          // Скриваме предметите, които не се учат в избрания клас.
+          const g = selectedGroup(stage);
+          return g === 'all' || !sub.topics.some((t) => t.group) || sub.topics.some((t) => inGroup(t, g));
+        }).map((sub) => {
+          const g = selectedGroup(stage);
+          const n = sub.topics.filter((t) => inGroup(t, g) && t.lessonId && LESSONS[t.lessonId]).length;
           return `
             <a class="subject-card" style="--c:${sub.color}" href="#/stage/${stage.id}/${sub.id}">
               <span class="subject-emoji" aria-hidden="true">${sub.emoji}</span>
@@ -292,6 +326,7 @@
           <p class="page-sub">${esc(stage.name)}${subject.grades ? ' · ' + esc(subject.grades) : ''}</p>
         </div>
       </header>
+      ${subject.topics.some((t) => t.group) ? groupPicker(stage) : ''}
 
       ${topics.length ? topicSections(stage, subject) : `
         <div class="empty">
@@ -306,7 +341,8 @@
       <ol class="topic-list" style="--c:${subject.color}">${topics.map(topicItem).join('')}</ol>`;
     if (!stage.groups || !subject.topics.some((t) => t.group)) return list(subject.topics);
 
-    return Object.keys(stage.groups).map((g) => {
+    const selected = selectedGroup(stage);
+    const html = Object.keys(stage.groups).filter((g) => selected === 'all' || g === selected).map((g) => {
       const topics = subject.topics.filter((t) => String(t.group) === g);
       if (!topics.length) return '';
       return `
@@ -315,6 +351,11 @@
           ${list(topics)}
         </section>`;
     }).join('');
+    return html || `
+      <div class="empty">
+        <span aria-hidden="true">📅</span>
+        <p>Този предмет не се учи в ${esc(stage.groups[selected] || '')}. Избери друг клас.</p>
+      </div>`;
   }
 
   function topicItem(t) {
@@ -697,6 +738,17 @@
       void el.offsetWidth;
       el.classList.add('is-pop');
     }
+  });
+
+  // Смяна на класа/групата: запомняме избора и прерисуваме страницата.
+  document.addEventListener('change', (e) => {
+    const sel = e.target.closest('[data-group-select]');
+    if (!sel) return;
+    const stage = findStage(sel.dataset.groupSelect);
+    setSelectedGroup(stage, sel.value);
+    route();
+    const again = app.querySelector('[data-group-select]');
+    if (again) again.focus();
   });
 
   window.addEventListener('hashchange', route);
