@@ -43,6 +43,12 @@ Topics follow the structure of the МОН subject programmes for 5.–7. кла�
 materials (e.g. the history catalogue and the 7. клас IT plan). Lesson files are `js/lessons/m<grade>-*.js`.
 Lessons for older students can use text-friendly blocks: `rule` (a „Запомни“ box), `list`, `table` and `timeline`.
 
+## High school (8.–12. клас)
+
+Topics follow the МОН programmes for the two high-school stages (8.–10. клас and the profiled 11.–12. клас), with
+literature chosen from the works studied for the matura. Lesson files are `js/lessons/h-*.js`. Informatics lessons use
+a `code` block (`{ type: 'code', lang: 'python', code: '…' }`).
+
 ## Adding a lesson
 
 1. Copy any file in `js/lessons/` and change the id and content.

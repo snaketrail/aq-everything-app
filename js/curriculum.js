@@ -608,22 +608,149 @@ window.CURRICULUM = {
       maxAge: 19,
       emoji: '🎓',
       description: 'Задълбочено знание, подготовка за НВО и матури.',
+      // 8.–10. клас: първи гимназиален етап (НВО след 10. клас); 11.–12. клас:
+      // втори етап с профилирана подготовка и държавни зрелостни изпити.
+      groupLabel: 'Клас',
+      groups: {
+        8: '8. клас',
+        9: '9. клас',
+        10: '10. клас',
+        11: '11. клас',
+        12: '12. клас'
+      },
       subjects: [
-        { id: 'bel', name: 'Български език и литература', emoji: '📚', color: '#b91c1c', grades: '8.–12. клас', topics: [] },
-        { id: 'math', name: 'Математика', emoji: '∑', color: '#1e40af', grades: '8.–12. клас', topics: [] },
-        { id: 'lang', name: 'Чужди езици', emoji: '🌐', color: '#6d28d9', grades: '8.–12. клас', topics: [] },
-        { id: 'inf', name: 'Информатика', emoji: '⌨️', color: '#0e7490', grades: '8.–10. клас', topics: [] },
-        { id: 'it', name: 'Информационни технологии', emoji: '🖥️', color: '#0369a1', grades: '8.–10. клас', topics: [] },
-        { id: 'history', name: 'История и цивилизации', emoji: '🏛️', color: '#92400e', grades: '8.–12. клас', topics: [] },
-        { id: 'geo', name: 'География и икономика', emoji: '🌍', color: '#166534', grades: '8.–12. клас', topics: [] },
-        { id: 'phil', name: 'Философия', emoji: '🤔', color: '#57534e', grades: '8.–10. клас', topics: [] },
-        { id: 'bio', name: 'Биология и здравно образование', emoji: '🧬', color: '#15803d', grades: '8.–12. клас', topics: [] },
-        { id: 'chem', name: 'Химия и опазване на околната среда', emoji: '🧪', color: '#a21caf', grades: '8.–12. клас', topics: [] },
-        { id: 'phys', name: 'Физика и астрономия', emoji: '⚛️', color: '#3730a3', grades: '8.–12. клас', topics: [] },
-        { id: 'civic', name: 'Гражданско образование', emoji: '🗳️', color: '#be123c', grades: '11.–12. клас', topics: [] },
-        { id: 'music', name: 'Музика', emoji: '🎼', color: '#c2410c', grades: '8.–10. клас', topics: [] },
-        { id: 'art', name: 'Изобразително изкуство', emoji: '🖼️', color: '#9d174d', grades: '8.–10. клас', topics: [] },
-        { id: 'pe', name: 'Физическо възпитание и спорт', emoji: '🏅', color: '#4d7c0f', grades: '8.–12. клас', topics: [] }
+        { id: 'bel', name: 'Български език и литература', emoji: '📚', color: '#b91c1c', grades: '8.–12. клас', topics: [
+          { group: 8, title: 'Омир — „Илиада“', core: 'Литература', lessonId: 'h8-bel-iliada' },
+          { group: 8, title: 'Библията — притчата за блудния син', core: 'Литература', lessonId: 'h8-bel-bluden-sin' },
+          { group: 8, title: 'Шекспир — „Ромео и Жулиета“', core: 'Литература', lessonId: 'h8-bel-romeo' },
+          { group: 8, title: 'Книжовни норми: честите грешки', core: 'Български език', lessonId: 'h8-bel-normi' },
+          { group: 9, title: 'Черноризец Храбър — „За буквите“', core: 'Литература', lessonId: 'h9-bel-hrabar' },
+          { group: 9, title: 'Паисий Хилендарски — „История славянобългарска“', core: 'Литература', lessonId: 'h9-bel-paisiy' },
+          { group: 9, title: 'Христо Ботев — „Хаджи Димитър“', core: 'Литература', lessonId: 'h9-bel-hadzhi-dimitar' },
+          { group: 9, title: 'Интерпретативно съчинение', core: 'Писане и матура', lessonId: 'h9-bel-interpretativno' },
+          { group: 10, title: 'Иван Вазов — „Под игото“', core: 'Литература', lessonId: 'h10-bel-pod-igoto' },
+          { group: 10, title: 'Алеко Константинов — „Бай Ганьо“', core: 'Литература', lessonId: 'h10-bel-bai-ganyo' },
+          { group: 10, title: 'Пейо Яворов — „Две хубави очи“', core: 'Литература', lessonId: 'h10-bel-yavorov' },
+          { group: 10, title: 'Есе', core: 'Писане и матура', lessonId: 'h10-bel-ese' },
+          { group: 11, title: 'Йордан Йовков — „Шибил“', core: 'Литература', lessonId: 'h11-bel-shibil' },
+          { group: 11, title: 'Димчо Дебелянов — „Да се завърнеш в бащината къща“', core: 'Литература', lessonId: 'h11-bel-debelyanov' },
+          { group: 11, title: 'Никола Вапцаров — „Писмо“', core: 'Литература', lessonId: 'h11-bel-vaptsarov' },
+          { group: 11, title: 'Теми и мотиви в литературата', core: 'Литература', lessonId: 'h11-bel-tvorbi-temi' },
+          { group: 12, title: 'Димитър Талев — „Железният светилник“', core: 'Литература', lessonId: 'h12-bel-svetilnik' },
+          { group: 12, title: 'Йордан Радичков — „Ний, врабчетата“', core: 'Литература', lessonId: 'h12-bel-radichkov' },
+          { group: 12, title: 'Матурата по БЕЛ', core: 'Писане и матура', lessonId: 'h12-bel-dzi' }
+        ] },
+        { id: 'math', name: 'Математика', emoji: '∑', color: '#1e40af', grades: '8.–12. клас', topics: [
+          { group: 8, title: 'Квадратен корен', core: 'Алгебра и функции', lessonId: 'h8-math-koreni' },
+          { group: 8, title: 'Квадратни уравнения', core: 'Алгебра и функции', lessonId: 'h8-math-kv-uravneniya' },
+          { group: 8, title: 'Питагорова теорема', core: 'Геометрия', lessonId: 'h8-math-pitagor' },
+          { group: 8, title: 'Вероятност', core: 'Вероятности и статистика', lessonId: 'h8-math-veroyatnost' },
+          { group: 9, title: 'Линейна функция', core: 'Алгебра и функции', lessonId: 'h9-math-lineyna' },
+          { group: 9, title: 'Системи линейни уравнения', core: 'Алгебра и функции', lessonId: 'h9-math-sistemi' },
+          { group: 9, title: 'Подобни триъгълници и теорема на Талес', core: 'Геометрия', lessonId: 'h9-math-podobni' },
+          { group: 9, title: 'Квадратна функция', core: 'Алгебра и функции', lessonId: 'h9-math-kvadratna-funktsiya' },
+          { group: 10, title: 'Тригонометрични функции', core: 'Геометрия', lessonId: 'h10-math-trig' },
+          { group: 10, title: 'Аритметична прогресия', core: 'Алгебра и функции', lessonId: 'h10-math-aritmetichna' },
+          { group: 10, title: 'Геометрична прогресия и лихва', core: 'Алгебра и функции', lessonId: 'h10-math-geometrichna' },
+          { group: 10, title: 'Синусова и косинусова теорема', core: 'Геометрия', lessonId: 'h10-math-teoremi' },
+          { group: 11, title: 'Комбинаторика', core: 'Вероятности и статистика', lessonId: 'h11-math-kombinatorika' },
+          { group: 11, title: 'Статистика', core: 'Вероятности и статистика', lessonId: 'h11-math-statistika' },
+          { group: 11, title: 'Обеми на тела', core: 'Геометрия', lessonId: 'h11-math-obemi' },
+          { group: 11, title: 'Показателна функция и логаритми', core: 'Алгебра и функции', lessonId: 'h11-math-logaritmi' },
+          { group: 12, title: 'Производна', core: 'Алгебра и функции', lessonId: 'h12-math-proizvodna' },
+          { group: 12, title: 'Лица на триъгълник — всички формули', core: 'Геометрия', lessonId: 'h12-math-litse' },
+          { group: 12, title: 'Вероятност на сложни събития', core: 'Вероятности и статистика', lessonId: 'h12-math-sabitiya' },
+          { group: 12, title: 'Матурата по математика', core: 'Матура', lessonId: 'h12-math-matura' }
+        ] },
+        { id: 'lang', name: 'Чужди езици', emoji: '🌐', color: '#6d28d9', grades: '8.–12. клас', topics: [
+          { group: 8, title: 'Second Conditional — if I had a million…', core: 'Граматика и лексика', lessonId: 'h8-en-second-conditional' },
+          { group: 8, title: 'Reported Speech — she said that…', core: 'Граматика и лексика', lessonId: 'h8-en-reported' },
+          { group: 9, title: 'Modals of deduction — must, might, can’t', core: 'Граматика и лексика', lessonId: 'h9-en-deduction' },
+          { group: 9, title: 'Used to and would — past habits', core: 'Граматика и лексика', lessonId: 'h9-en-used-to' },
+          { group: 10, title: 'Third Conditional — if I had known…', core: 'Граматика и лексика', lessonId: 'h10-en-third-conditional' },
+          { group: 10, title: 'Writing a formal email', core: 'Писане и изпити', lessonId: 'h10-en-formal-email' },
+          { group: 11, title: 'Opinion essay and linking words', core: 'Писане и изпити', lessonId: 'h11-en-essay' },
+          { group: 11, title: 'Phrasal verbs', core: 'Граматика и лексика', lessonId: 'h11-en-phrasal-verbs' },
+          { group: 12, title: 'Collocations: make or do?', core: 'Граматика и лексика', lessonId: 'h12-en-collocations' },
+          { group: 12, title: 'Exam strategies: reading and listening', core: 'Писане и изпити', lessonId: 'h12-en-exam' }
+        ] },
+        { id: 'inf', name: 'Информатика', emoji: '⌨️', color: '#0e7490', grades: '8.–10. клас', topics: [
+          { group: 8, title: 'Python: променливи, вход и изход', core: 'Програмиране на Python', lessonId: 'h8-inf-promenlivi' },
+          { group: 8, title: 'Python: условия', core: 'Програмиране на Python', lessonId: 'h8-inf-usloviya' },
+          { group: 8, title: 'Python: цикли', core: 'Програмиране на Python', lessonId: 'h8-inf-tsikli' },
+          { group: 9, title: 'Python: списъци', core: 'Програмиране на Python', lessonId: 'h9-inf-spisaci' },
+          { group: 9, title: 'Python: функции', core: 'Програмиране на Python', lessonId: 'h9-inf-funktsii' },
+          { group: 10, title: 'Търсене и сортиране', core: 'Програмиране на Python', lessonId: 'h10-inf-tarsene-sortirane' }
+        ] },
+        { id: 'it', name: 'Информационни технологии', emoji: '🖥️', color: '#0369a1', grades: '8.–10. клас', topics: [
+          { group: 8, title: 'Киберсигурност', core: 'Дигитални технологии', lessonId: 'h8-it-kibersigurnost' },
+          { group: 9, title: 'Бази от данни', core: 'Дигитални технологии', lessonId: 'h9-it-bazi-danni' },
+          { group: 10, title: 'Уеб страница с HTML и CSS', core: 'Дигитални технологии', lessonId: 'h10-it-html' }
+        ] },
+        { id: 'history', name: 'История и цивилизации', emoji: '🏛️', color: '#92400e', grades: '8.–12. клас', topics: [
+          { group: 8, title: 'Богомилството', core: 'Световна история', lessonId: 'h8-ist-bogomilstvo' },
+          { group: 8, title: 'Възходът на Османската империя', core: 'Световна история', lessonId: 'h8-ist-osmanska-imperiya' },
+          { group: 9, title: 'Просвещението', core: 'Световна история', lessonId: 'h9-ist-prosveshtenie' },
+          { group: 9, title: 'Национализмът и новите държави през XIX век', core: 'Световна история', lessonId: 'h9-ist-natsii' },
+          { group: 10, title: 'Войните за национално обединение (1912–1918)', core: 'България през XX век', lessonId: 'h10-ist-voyni' },
+          { group: 10, title: 'България във Втората световна война', core: 'България през XX век', lessonId: 'h10-ist-vtora-svetovna' },
+          { group: 10, title: 'Комунистическият режим (1944–1989)', core: 'България през XX век', lessonId: 'h10-ist-komunizam' },
+          { group: 10, title: 'Демократичният преход', core: 'България през XX век', lessonId: 'h10-ist-demokratsiya' },
+          { group: 11, title: 'Студената война', core: 'България през XX век', lessonId: 'h11-ist-studena-voyna' }
+        ] },
+        { id: 'geo', name: 'География и икономика', emoji: '🌍', color: '#166534', grades: '8.–12. клас', topics: [
+          { group: 8, title: 'Населението на света', core: 'Светът', lessonId: 'h8-geo-naselenie' },
+          { group: 8, title: 'Климатичните промени', core: 'Светът', lessonId: 'h8-geo-klimat' },
+          { group: 9, title: 'Световното стопанство и глобализацията', core: 'Светът', lessonId: 'h9-geo-stopanstvo' },
+          { group: 9, title: 'Природни ресурси и устойчиво развитие', core: 'Светът', lessonId: 'h9-geo-resursi' },
+          { group: 10, title: 'Районите на България', core: 'География на България', lessonId: 'h10-geo-rayoni' },
+          { group: 10, title: 'Икономиката на България', core: 'География на България', lessonId: 'h10-geo-ikonomika-bg' }
+        ] },
+        { id: 'phil', name: 'Философия', emoji: '🤔', color: '#57534e', grades: '8.–10. клас', topics: [
+          { group: 8, title: 'Какво е философия', core: 'Философия и психология', lessonId: 'h8-phil-filosofiya' },
+          { group: 8, title: 'Психология: как мислим и чувстваме', core: 'Философия и психология', lessonId: 'h8-phil-psihologiya' },
+          { group: 9, title: 'Логика', core: 'Логика', lessonId: 'h9-phil-logika' },
+          { group: 10, title: 'Етика: какво е добро', core: 'Етика', lessonId: 'h10-phil-etika' }
+        ] },
+        { id: 'bio', name: 'Биология и здравно образование', emoji: '🧬', color: '#15803d', grades: '8.–12. клас', topics: [
+          { group: 8, title: 'Клетката отблизо', core: 'Биология', lessonId: 'h8-bio-kletka' },
+          { group: 9, title: 'Нервната система', core: 'Биология', lessonId: 'h9-bio-nervna-sistema' },
+          { group: 9, title: 'Кръвоносна система', core: 'Биология', lessonId: 'h9-bio-krav' },
+          { group: 10, title: 'Генетика', core: 'Биология', lessonId: 'h10-bio-genetika' },
+          { group: 10, title: 'Еволюция', core: 'Биология', lessonId: 'h10-bio-evolyutsiya' }
+        ] },
+        { id: 'chem', name: 'Химия и опазване на околната среда', emoji: '🧪', color: '#a21caf', grades: '8.–12. клас', topics: [
+          { group: 8, title: 'Периодичен закон и химична връзка', core: 'Химия', lessonId: 'h8-chem-vrazka' },
+          { group: 8, title: 'Киселини, основи, соли и pH', core: 'Химия', lessonId: 'h8-chem-ph' },
+          { group: 9, title: 'Мол и моларна маса', core: 'Химия', lessonId: 'h9-chem-mol' },
+          { group: 10, title: 'Органична химия: въглеводороди', core: 'Химия', lessonId: 'h10-chem-organichna' },
+          { group: 10, title: 'Полимери и пластмаси', core: 'Химия', lessonId: 'h10-chem-polimeri' }
+        ] },
+        { id: 'phys', name: 'Физика и астрономия', emoji: '⚛️', color: '#3730a3', grades: '8.–12. клас', topics: [
+          { group: 8, title: 'Закон на Ом', core: 'Физика и астрономия', lessonId: 'h8-phys-om' },
+          { group: 8, title: 'Електрическа мощност и енергия', core: 'Физика и астрономия', lessonId: 'h8-phys-moshtnost' },
+          { group: 9, title: 'Вълни и звук', core: 'Физика и астрономия', lessonId: 'h9-phys-valni' },
+          { group: 9, title: 'Отражение, пречупване и лещи', core: 'Физика и астрономия', lessonId: 'h9-phys-optika' },
+          { group: 10, title: 'Атомно ядро и радиоактивност', core: 'Физика и астрономия', lessonId: 'h10-phys-yadro' },
+          { group: 10, title: 'Вселената', core: 'Физика и астрономия', lessonId: 'h10-phys-vselena' }
+        ] },
+        { id: 'civic', name: 'Гражданско образование', emoji: '🗳️', color: '#be123c', grades: '11.–12. клас', topics: [
+          { group: 11, title: 'Демокрация и права на човека', core: 'Гражданство', lessonId: 'h11-civic-prava' },
+          { group: 11, title: 'Медийна грамотност', core: 'Гражданство', lessonId: 'h11-civic-medii' },
+          { group: 12, title: 'Финансова грамотност', core: 'Гражданство', lessonId: 'h12-civic-finansi' }
+        ] },
+        { id: 'music', name: 'Музика', emoji: '🎼', color: '#c2410c', grades: '8.–10. клас', topics: [
+          { group: 8, title: 'Романтизмът в музиката', core: 'Музикална история', lessonId: 'h8-music-romantizam' },
+          { group: 9, title: 'Българските композитори', core: 'Музикална история', lessonId: 'h9-music-bulgarski' }
+        ] },
+        { id: 'art', name: 'Изобразително изкуство', emoji: '🖼️', color: '#9d174d', grades: '8.–10. клас', topics: [
+          { group: 9, title: 'Модерното изкуство', core: 'История на изкуството', lessonId: 'h9-art-modernizam' },
+          { group: 10, title: 'Българските художници', core: 'История на изкуството', lessonId: 'h10-art-bulgarski' }
+        ] },
+        { id: 'pe', name: 'Физическо възпитание и спорт', emoji: '🏅', color: '#4d7c0f', grades: '8.–12. клас', topics: [
+          { group: 8, title: 'Първа помощ', core: 'Здраве и спорт', lessonId: 'h8-pe-parva-pomosht' },
+          { group: 11, title: 'Моят тренировъчен план', core: 'Здраве и спорт', lessonId: 'h11-pe-trenirovachen-plan' }
+        ] }
       ]
     },
 

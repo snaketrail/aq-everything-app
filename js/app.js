@@ -473,6 +473,10 @@
             </table>
           </div>${b.caption ? `<p class="caption">${esc(b.caption)}</p>` : ''}`;
 
+      case 'code':
+        // Програмен код (Информатика). `lang` е само надпис.
+        return `<figure class="code-block">${b.lang ? `<figcaption>${esc(b.lang)}</figcaption>` : ''}<pre><code>${esc(b.code)}</code></pre></figure>`;
+
       case 'timeline':
         return `<ol class="timeline">${b.items.map((it) => `
           <li><span class="tl-year">${esc(it.year)}</span><span class="tl-text">${it.pic ? `${pics(it.pic)} ` : ''}${esc(it.text)}</span></li>`).join('')}</ol>`;

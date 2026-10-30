@@ -1155,3 +1155,7 @@ body[data-theme="high"] .sp-pic { font-size: 1.7rem; font-weight: 700; }
   body[data-theme="middle"] .sp-pic,
   body[data-theme="high"] .sp-pic { font-size: 1.4rem; white-space: normal; }
 }
+
+.code-block { margin: 12px 0; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--line); }
+.code-block figcaption { font: 600 .8rem/1 var(--font-body); padding: 8px 12px; background: #1e293b; color: #94a3b8; letter-spacing: .04em; text-transform: uppercase; }
+.code-block pre { margin: 0; padding: 12px 14px; background: #0f172a; color: #e2e8f0; overflow-x: auto; font: .92rem/1.55 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
