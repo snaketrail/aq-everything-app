@@ -436,21 +436,166 @@ window.CURRICULUM = {
       maxAge: 13,
       emoji: '🔭',
       description: 'Нови предмети, експерименти и повече самостоятелност.',
+      // Темите следват учебните програми на МОН за 5.–7. клас (2016–2018 г.).
+      groupLabel: 'Клас',
+      groups: {
+        5: '5. клас',
+        6: '6. клас',
+        7: '7. клас'
+      },
       subjects: [
-        { id: 'bel', name: 'Български език и литература', emoji: '📖', color: '#e63946', grades: '5.–7. клас', topics: [] },
-        { id: 'math', name: 'Математика', emoji: '📐', color: '#1d4ed8', grades: '5.–7. клас', topics: [] },
-        { id: 'lang', name: 'Чужд език', emoji: '🗣️', color: '#7c3aed', grades: '5.–7. клас', topics: [] },
-        { id: 'cs', name: 'Компютърно моделиране и ИТ', emoji: '💻', color: '#0891b2', grades: '5.–7. клас', topics: [] },
-        { id: 'history', name: 'История и цивилизации', emoji: '🏺', color: '#b45309', grades: '5.–7. клас', topics: [] },
-        { id: 'geo', name: 'География и икономика', emoji: '🗺️', color: '#15803d', grades: '5.–7. клас', topics: [] },
-        { id: 'nature', name: 'Човекът и природата', emoji: '🌿', color: '#0f766e', grades: '5.–6. клас', topics: [] },
-        { id: 'bio', name: 'Биология и здравно образование', emoji: '🧬', color: '#16a34a', grades: '7. клас', topics: [] },
-        { id: 'chem', name: 'Химия и опазване на околната среда', emoji: '⚗️', color: '#c026d3', grades: '7. клас', topics: [] },
-        { id: 'phys', name: 'Физика и астрономия', emoji: '🪐', color: '#4338ca', grades: '7. клас', topics: [] },
-        { id: 'music', name: 'Музика', emoji: '🎼', color: '#ea580c', grades: '5.–7. клас', topics: [] },
-        { id: 'art', name: 'Изобразително изкуство', emoji: '🖌️', color: '#db2777', grades: '5.–7. клас', topics: [] },
-        { id: 'tech', name: 'Технологии и предприемачество', emoji: '🛠️', color: '#475569', grades: '5.–7. клас', topics: [] },
-        { id: 'pe', name: 'Физическо възпитание и спорт', emoji: '🏐', color: '#65a30d', grades: '5.–7. клас', topics: [] }
+        { id: 'bel', name: 'Български език и литература', emoji: '📖', color: '#e63946', grades: '5.–7. клас', topics: [
+          { group: 5, title: 'Звучни и беззвучни съгласни', core: 'Български език', lessonId: 'm5-bel-zvukove' },
+          { group: 5, title: 'Я или Е? (ятов преход)', core: 'Български език', lessonId: 'm5-bel-yat' },
+          { group: 5, title: 'Съществително име', core: 'Български език', lessonId: 'm5-bel-sashtestvitelni' },
+          { group: 5, title: 'Глаголни времена в миналото', core: 'Български език', lessonId: 'm5-bel-glagol' },
+          { group: 5, title: 'Запетая: обръщение и еднородни части', core: 'Български език', lessonId: 'm5-bel-zapetaya' },
+          { group: 5, title: 'Митът за Дедал и Икар', core: 'Литература', lessonId: 'm5-bel-ikar' },
+          { group: 6, title: 'Местоимения', core: 'Български език', lessonId: 'm6-bel-mestoimeniya' },
+          { group: 6, title: 'Части на изречението', core: 'Български език', lessonId: 'm6-bel-chasti-izrechenie' },
+          { group: 6, title: 'Сложни глаголни времена', core: 'Български език', lessonId: 'm6-bel-slozhni-vremena' },
+          { group: 6, title: 'Слято, полуслято и разделно писане', core: 'Български език', lessonId: 'm6-bel-slyato' },
+          { group: 6, title: 'Наречие', core: 'Български език', lessonId: 'm6-bel-narechie' },
+          { group: 6, title: 'Иван Вазов — „Една българка“', core: 'Литература', lessonId: 'm6-bel-edna-balgarka' },
+          { group: 7, title: 'Сложно изречение', core: 'Български език', lessonId: 'm7-bel-slozhno-izrechenie' },
+          { group: 7, title: 'Причастия', core: 'Български език', lessonId: 'm7-bel-prichastiya' },
+          { group: 7, title: 'Омоними, пароними, фразеологизми', core: 'Български език', lessonId: 'm7-bel-leksika' },
+          { group: 7, title: 'Аргументативен текст', core: 'Общуване и текст', lessonId: 'm7-bel-argumentatsiya' },
+          { group: 7, title: 'Литературни родове и жанрове', core: 'Литература', lessonId: 'm7-bel-rodove' },
+          { group: 7, title: 'Христо Ботев — „На прощаване“', core: 'Литература', lessonId: 'm7-bel-botev' }
+        ] },
+        { id: 'math', name: 'Математика', emoji: '📐', color: '#1d4ed8', grades: '5.–7. клас', topics: [
+          { group: 5, title: 'Признаци за делимост', core: 'Числа и алгебра', lessonId: 'm5-math-delimost' },
+          { group: 5, title: 'Прости и съставни числа. НОД и НОК', core: 'Числа и алгебра', lessonId: 'm5-math-prosti' },
+          { group: 5, title: 'Обикновени дроби', core: 'Числа и алгебра', lessonId: 'm5-math-drobi' },
+          { group: 5, title: 'Десетични дроби', core: 'Числа и алгебра', lessonId: 'm5-math-desetichni' },
+          { group: 5, title: 'Ъгли', core: 'Геометрия', lessonId: 'm5-math-agli' },
+          { group: 5, title: 'Триъгълник', core: 'Геометрия', lessonId: 'm5-math-triagalnik' },
+          { group: 5, title: 'Обем на куб и правоъгълен паралелепипед', core: 'Геометрия', lessonId: 'm5-math-obem' },
+          { group: 6, title: 'Отрицателни числа', core: 'Числа и алгебра', lessonId: 'm6-math-otritsatelni' },
+          { group: 6, title: 'Действия с рационални числа', core: 'Числа и алгебра', lessonId: 'm6-math-deystviya' },
+          { group: 6, title: 'Степени', core: 'Числа и алгебра', lessonId: 'm6-math-stepeni' },
+          { group: 6, title: 'Уравнения', core: 'Числа и алгебра', lessonId: 'm6-math-uravneniya' },
+          { group: 6, title: 'Проценти', core: 'Числа и алгебра', lessonId: 'm6-math-protsenti' },
+          { group: 6, title: 'Окръжност и кръг', core: 'Геометрия', lessonId: 'm6-math-krag' },
+          { group: 7, title: 'Алгебрични изрази и едночлени', core: 'Числа и алгебра', lessonId: 'm7-math-izrazi' },
+          { group: 7, title: 'Формули за съкратено умножение', core: 'Числа и алгебра', lessonId: 'm7-math-formuli' },
+          { group: 7, title: 'Разлагане на множители', core: 'Числа и алгебра', lessonId: 'm7-math-razlagane' },
+          { group: 7, title: 'Уравнения и текстови задачи', core: 'Числа и алгебра', lessonId: 'm7-math-uravneniya' },
+          { group: 7, title: 'Неравенства', core: 'Числа и алгебра', lessonId: 'm7-math-neravenstva' },
+          { group: 7, title: 'Еднакви триъгълници', core: 'Геометрия', lessonId: 'm7-math-ednakvi-triagalnitsi' }
+        ] },
+        { id: 'lang', name: 'Чужд език', emoji: '🗣️', color: '#7c3aed', grades: '5.–7. клас', topics: [
+          { group: 5, title: 'Present Continuous — what are you doing?', core: 'Английски език', lessonId: 'm5-en-present-continuous' },
+          { group: 5, title: 'Past Simple — yesterday', core: 'Английски език', lessonId: 'm5-en-past-simple' },
+          { group: 5, title: 'Comparatives — bigger, the biggest', core: 'Английски език', lessonId: 'm5-en-comparatives' },
+          { group: 5, title: 'Some, any, much, many', core: 'Английски език', lessonId: 'm5-en-some-any' },
+          { group: 6, title: 'Past Continuous — I was walking when…', core: 'Английски език', lessonId: 'm6-en-past-continuous' },
+          { group: 6, title: 'Future: will and going to', core: 'Английски език', lessonId: 'm6-en-future' },
+          { group: 6, title: 'Present Perfect — have you ever…?', core: 'Английски език', lessonId: 'm6-en-present-perfect' },
+          { group: 6, title: 'Must, mustn’t, should', core: 'Английски език', lessonId: 'm6-en-must-should' },
+          { group: 7, title: 'Present Perfect or Past Simple?', core: 'Английски език', lessonId: 'm7-en-perfect-past' },
+          { group: 7, title: 'First Conditional — if it rains…', core: 'Английски език', lessonId: 'm7-en-conditional' },
+          { group: 7, title: 'The Passive — it was built…', core: 'Английски език', lessonId: 'm7-en-passive' },
+          { group: 7, title: 'Relative clauses — who, which, where', core: 'Английски език', lessonId: 'm7-en-relative' }
+        ] },
+        { id: 'cs', name: 'Компютърно моделиране и ИТ', emoji: '💻', color: '#0891b2', grades: '5.–7. клас', topics: [
+          { group: 5, title: 'Файлове и папки', core: 'Информационни технологии', lessonId: 'm5-it-faylove' },
+          { group: 5, title: 'Обработка на текст', core: 'Информационни технологии', lessonId: 'm5-it-tekst' },
+          { group: 5, title: 'Търсене в интернет', core: 'Информационни технологии', lessonId: 'm5-it-tarsene' },
+          { group: 6, title: 'Компютърна графика', core: 'Информационни технологии', lessonId: 'm6-it-grafika' },
+          { group: 6, title: 'Презентации', core: 'Информационни технологии', lessonId: 'm6-it-prezentatsiya' },
+          { group: 6, title: 'Авторско право', core: 'Информационни технологии', lessonId: 'm6-it-avtorsko-pravo' },
+          { group: 7, title: 'Електронни таблици и формули', core: 'Информационни технологии', lessonId: 'm7-it-tablitsi' },
+          { group: 7, title: 'Диаграми', core: 'Информационни технологии', lessonId: 'm7-it-diagrami' },
+          { group: 7, title: 'Файлови формати и компресия', core: 'Информационни технологии', lessonId: 'm7-it-formati' }
+        ] },
+        { id: 'history', name: 'История и цивилизации', emoji: '🏺', color: '#b45309', grades: '5.–7. клас', topics: [
+          { group: 5, title: 'Праисторията', core: 'Древността', lessonId: 'm5-ist-praistoriya' },
+          { group: 5, title: 'Първите цивилизации: Месопотамия и Египет', core: 'Древността', lessonId: 'm5-ist-mesopotamiya-egipet' },
+          { group: 5, title: 'Древна Елада', core: 'Древността', lessonId: 'm5-ist-elada' },
+          { group: 5, title: 'Древна Тракия', core: 'Древността', lessonId: 'm5-ist-trakiya' },
+          { group: 5, title: 'Древен Рим', core: 'Древността', lessonId: 'm5-ist-rim' },
+          { group: 5, title: 'Появата на християнството', core: 'Древността', lessonId: 'm5-ist-hristiyanstvo' },
+          { group: 6, title: 'Византия', core: 'Средновековието', lessonId: 'm6-ist-vizantiya' },
+          { group: 6, title: 'Славяни и прабългари. Основаването на България', core: 'Средновековието', lessonId: 'm6-ist-balgari' },
+          { group: 6, title: 'Първото българско царство', core: 'Средновековието', lessonId: 'm6-ist-parva-darzhava' },
+          { group: 6, title: 'Кирил и Методий. Българската книжнина', core: 'Средновековието', lessonId: 'm6-ist-kirilitsa' },
+          { group: 6, title: 'Средновековна Европа и ислямът', core: 'Средновековието', lessonId: 'm6-ist-evropa' },
+          { group: 6, title: 'Второто българско царство', core: 'Средновековието', lessonId: 'm6-ist-vtora-darzhava' },
+          { group: 7, title: 'Великите географски открития', core: 'Нови времена и Възраждане', lessonId: 'm7-ist-otkritiya' },
+          { group: 7, title: 'Ренесанс, Реформация и революции', core: 'Нови времена и Възраждане', lessonId: 'm7-ist-revolyutsii' },
+          { group: 7, title: 'Българите под османска власт', core: 'Нови времена и Възраждане', lessonId: 'm7-ist-osmanska-vlast' },
+          { group: 7, title: 'Българското Възраждане', core: 'Нови времена и Възраждане', lessonId: 'm7-ist-vazrazhdane' },
+          { group: 7, title: 'Борбата за свобода и Освобождението', core: 'Нови времена и Възраждане', lessonId: 'm7-ist-osvobozhdenie' }
+        ] },
+        { id: 'geo', name: 'География и икономика', emoji: '🗺️', color: '#15803d', grades: '5.–7. клас', topics: [
+          { group: 5, title: 'Земята — нашата планета', core: 'Земята', lessonId: 'm5-geo-zemya' },
+          { group: 5, title: 'Картата и мащабът', core: 'Земята', lessonId: 'm5-geo-karta' },
+          { group: 5, title: 'Географски координати', core: 'Земята', lessonId: 'm5-geo-koordinati' },
+          { group: 5, title: 'Литосферата и релефът', core: 'Земята', lessonId: 'm5-geo-litosfera' },
+          { group: 5, title: 'Хидросферата', core: 'Земята', lessonId: 'm5-geo-hidrosfera' },
+          { group: 6, title: 'Африка', core: 'Континентите', lessonId: 'm6-geo-afrika' },
+          { group: 6, title: 'Азия', core: 'Континентите', lessonId: 'm6-geo-aziya' },
+          { group: 6, title: 'Северна и Южна Америка', core: 'Континентите', lessonId: 'm6-geo-amerika' },
+          { group: 6, title: 'Австралия и Океания', core: 'Континентите', lessonId: 'm6-geo-avstraliya' },
+          { group: 6, title: 'Антарктида', core: 'Континентите', lessonId: 'm6-geo-antarktida' },
+          { group: 7, title: 'Европа — природа', core: 'Европа и България', lessonId: 'm7-geo-evropa' },
+          { group: 7, title: 'Европейският съюз', core: 'Европа и България', lessonId: 'm7-geo-es' },
+          { group: 7, title: 'България — положение и релеф', core: 'Европа и България', lessonId: 'm7-geo-balgariya-priroda' },
+          { group: 7, title: 'България — климат и води', core: 'Европа и България', lessonId: 'm7-geo-balgariya-klimat' },
+          { group: 7, title: 'България — население и стопанство', core: 'Европа и България', lessonId: 'm7-geo-balgariya-naselenie' }
+        ] },
+        { id: 'nature', name: 'Човекът и природата', emoji: '🌿', color: '#0f766e', grades: '5.–6. клас', topics: [
+          { group: 5, title: 'Клетката', core: 'Живата природа', lessonId: 'm5-chp-kletka' },
+          { group: 5, title: 'Многообразие на организмите', core: 'Живата природа', lessonId: 'm5-chp-tsarstva' },
+          { group: 5, title: 'Чисти вещества и смеси', core: 'Неживата природа', lessonId: 'm5-chp-smesi' },
+          { group: 5, title: 'Движение и скорост', core: 'Неживата природа', lessonId: 'm5-chp-skorost' },
+          { group: 5, title: 'Светлината', core: 'Неживата природа', lessonId: 'm5-chp-svetlina' },
+          { group: 6, title: 'Фотосинтеза и дишане', core: 'Живата природа', lessonId: 'm6-chp-fotosintez' },
+          { group: 6, title: 'Размножаване на организмите', core: 'Живата природа', lessonId: 'm6-chp-razmnozhavane' },
+          { group: 6, title: 'Екосистеми', core: 'Живата природа', lessonId: 'm6-chp-ekosistemi' },
+          { group: 6, title: 'Електрически ток', core: 'Неживата природа', lessonId: 'm6-chp-elektrichestvo' },
+          { group: 6, title: 'Топлина и топлопредаване', core: 'Неживата природа', lessonId: 'm6-chp-toplina' }
+        ] },
+        { id: 'bio', name: 'Биология и здравно образование', emoji: '🧬', color: '#16a34a', grades: '7. клас', topics: [
+          { group: 7, title: 'Класификация на организмите', core: 'Многообразие на организмите', lessonId: 'm7-bio-klasifikatsiya' },
+          { group: 7, title: 'Вируси и бактерии', core: 'Многообразие на организмите', lessonId: 'm7-bio-virusi-bakterii' },
+          { group: 7, title: 'Многообразие на растенията', core: 'Многообразие на организмите', lessonId: 'm7-bio-rasteniya' },
+          { group: 7, title: 'Многообразие на животните', core: 'Многообразие на организмите', lessonId: 'm7-bio-zhivotni' }
+        ] },
+        { id: 'chem', name: 'Химия и опазване на околната среда', emoji: '⚗️', color: '#c026d3', grades: '7. клас', topics: [
+          { group: 7, title: 'Вещества и явления', core: 'Вещества и реакции', lessonId: 'm7-chem-veshtestva' },
+          { group: 7, title: 'Строеж на атома', core: 'Вещества и реакции', lessonId: 'm7-chem-atom' },
+          { group: 7, title: 'Химични елементи и Периодичната система', core: 'Вещества и реакции', lessonId: 'm7-chem-elementi' },
+          { group: 7, title: 'Химични реакции и околната среда', core: 'Вещества и реакции', lessonId: 'm7-chem-reaktsii' }
+        ] },
+        { id: 'phys', name: 'Физика и астрономия', emoji: '🪐', color: '#4338ca', grades: '7. клас', topics: [
+          { group: 7, title: 'Механично движение', core: 'Механика', lessonId: 'm7-phys-dvizhenie' },
+          { group: 7, title: 'Сила, маса и тегло', core: 'Механика', lessonId: 'm7-phys-sila' },
+          { group: 7, title: 'Налягане', core: 'Механика', lessonId: 'm7-phys-nalyagane' },
+          { group: 7, title: 'Закон на Архимед', core: 'Механика', lessonId: 'm7-phys-arhimed' }
+        ] },
+        { id: 'music', name: 'Музика', emoji: '🎼', color: '#ea580c', grades: '5.–7. клас', topics: [
+          { group: 5, title: 'Неравноделните размери', core: 'Възприемане', lessonId: 'm5-music-razmeri' },
+          { group: 6, title: 'Барок и класицизъм', core: 'Възприемане', lessonId: 'm6-music-barok-klasitsizam' },
+          { group: 7, title: 'Музиката на XX век', core: 'Възприемане', lessonId: 'm7-music-xx-vek' }
+        ] },
+        { id: 'art', name: 'Изобразително изкуство', emoji: '🖌️', color: '#db2777', grades: '5.–7. клас', topics: [
+          { group: 5, title: 'Изкуството на Древността', core: 'История на изкуството', lessonId: 'm5-art-drevnost' },
+          { group: 6, title: 'Изкуството на Средновековието', core: 'История на изкуството', lessonId: 'm6-art-srednovekovie' },
+          { group: 7, title: 'Изкуството на Ренесанса', core: 'История на изкуството', lessonId: 'm7-art-renesans' }
+        ] },
+        { id: 'tech', name: 'Технологии и предприемачество', emoji: '🛠️', color: '#475569', grades: '5.–7. клас', topics: [
+          { group: 5, title: 'Технически чертеж', core: 'Технологии и предприемачество', lessonId: 'm5-tech-chertezh' },
+          { group: 6, title: 'Енергийна ефективност у дома', core: 'Технологии и предприемачество', lessonId: 'm6-tech-energiya' },
+          { group: 7, title: 'Бизнес идея и маркетинг', core: 'Технологии и предприемачество', lessonId: 'm7-tech-marketing' }
+        ] },
+        { id: 'pe', name: 'Физическо възпитание и спорт', emoji: '🏐', color: '#65a30d', grades: '5.–7. клас', topics: [
+          { group: 5, title: 'Баскетбол', core: 'Спорт и здраве', lessonId: 'm5-pe-basketbol' },
+          { group: 6, title: 'Футбол — правила на играта', core: 'Спорт и здраве', lessonId: 'm6-pe-futbol' },
+          { group: 7, title: 'Здравословна тренировка', core: 'Спорт и здраве', lessonId: 'm7-pe-trenirovka' }
+        ] }
       ]
     },
     {

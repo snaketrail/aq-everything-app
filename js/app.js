@@ -455,6 +455,28 @@
       case 'text':
         return `<p>${esc(b.text)}</p>`;
 
+      // ---- Блокове за по-големите: повече текст, таблици, хронология ----
+
+      case 'rule':
+        // Рамка „Запомни“ с основното правило или определение.
+        return `<div class="rule-box"><p class="rule-title">${pics(b.title || '📌 Запомни')}</p><p>${esc(b.text)}</p></div>`;
+
+      case 'list':
+        return `<${b.ordered ? 'ol' : 'ul'} class="text-list">${b.items.map((it) => `<li>${esc(it)}</li>`).join('')}</${b.ordered ? 'ol' : 'ul'}>`;
+
+      case 'table':
+        return `
+          <div class="table-wrap">
+            <table class="data-table">
+              ${b.head ? `<thead><tr>${b.head.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead>` : ''}
+              <tbody>${b.rows.map((r) => `<tr>${r.map((c) => `<td>${pics(String(c))}</td>`).join('')}</tr>`).join('')}</tbody>
+            </table>
+          </div>${b.caption ? `<p class="caption">${esc(b.caption)}</p>` : ''}`;
+
+      case 'timeline':
+        return `<ol class="timeline">${b.items.map((it) => `
+          <li><span class="tl-year">${esc(it.year)}</span><span class="tl-text">${it.pic ? `${pics(it.pic)} ` : ''}${esc(it.text)}</span></li>`).join('')}</ol>`;
+
       default:
         return '';
     }

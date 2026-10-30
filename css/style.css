@@ -1112,3 +1112,46 @@ img.emo {
   body[data-theme="kg"] .subject-emoji { width: 64px; height: 64px; font-size: 2.2rem; }
   body[data-theme="kg"] .subject-card { padding: 16px 10px; }
 }
+
+/* ---------- Блокове с повече текст (5.–12. клас) ---------- */
+
+.rule-box {
+  margin: 14px 0;
+  padding: 12px 16px;
+  border-left: 4px solid var(--primary);
+  background: color-mix(in srgb, var(--primary) 7%, var(--surface));
+  border-radius: var(--radius-sm);
+}
+.rule-box p { margin: 0; }
+.rule-box .rule-title { font-weight: 700; margin-bottom: 4px; color: var(--primary); }
+
+.text-list { margin: 10px 0; padding-left: 1.4em; }
+.text-list li { margin: 4px 0; }
+
+.table-wrap { overflow-x: auto; margin: 12px 0; -webkit-overflow-scrolling: touch; }
+.data-table { border-collapse: collapse; width: 100%; font-size: .95em; }
+.data-table th, .data-table td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.data-table th { background: color-mix(in srgb, var(--primary) 9%, var(--surface)); font-weight: 700; }
+.data-table tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--line) 35%, var(--surface)); }
+
+.timeline { list-style: none; margin: 12px 0; padding: 0 0 0 14px; border-left: 3px solid var(--accent); }
+.timeline li { position: relative; display: flex; gap: 12px; padding: 6px 0 10px 10px; }
+.timeline li::before {
+  content: ''; position: absolute; left: -22px; top: 12px;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--surface); border: 3px solid var(--accent);
+}
+.timeline .tl-year { flex: 0 0 auto; min-width: 5.5em; font-weight: 700; color: var(--primary); }
+@media (max-width: 520px) {
+  .timeline li { flex-direction: column; gap: 2px; }
+}
+
+/* По-големите: стъпките често са формули — по-дребни и с пренасяне на телефон */
+body[data-theme="middle"] .sp-pic,
+body[data-theme="high"] .sp-pic { font-size: 1.7rem; font-weight: 700; }
+@media (max-width: 520px) {
+  body[data-theme="middle"] .story-panel,
+  body[data-theme="high"] .story-panel { flex-direction: column; align-items: flex-start; gap: 6px; }
+  body[data-theme="middle"] .sp-pic,
+  body[data-theme="high"] .sp-pic { font-size: 1.4rem; white-space: normal; }
+}

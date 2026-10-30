@@ -37,6 +37,12 @@ educational areas, each split into образователни ядра, with exp
 Lessons follow the МОН subject programmes. Topic order for each grade was checked against openly published
 annual plans (годишни тематични разпределения) from Prosveta and teachers. Lesson files are `js/lessons/p<grade>-*.js`.
 
+## Middle school (5.–7. клас)
+
+Topics follow the structure of the МОН subject programmes for 5.–7. клас, checked against openly published Prosveta
+materials (e.g. the history catalogue and the 7. клас IT plan). Lesson files are `js/lessons/m<grade>-*.js`.
+Lessons for older students can use text-friendly blocks: `rule` (a „Запомни“ box), `list`, `table` and `timeline`.
+
 ## Adding a lesson
 
 1. Copy any file in `js/lessons/` and change the id and content.
