@@ -68,24 +68,21 @@
   // ---------- Четене на глас ----------
 
   const canSpeak = 'speechSynthesis' in window;
-  let bgVoice = null;
-  if (canSpeak) {
-    const pickVoice = () => {
-      bgVoice = speechSynthesis.getVoices().find((v) => v.lang && v.lang.toLowerCase().startsWith('bg')) || null;
-    };
-    pickVoice();
-    speechSynthesis.addEventListener('voiceschanged', pickVoice);
-  }
+  const voiceFor = (lang) => (canSpeak
+    ? speechSynthesis.getVoices().find((v) => v.lang && v.lang.toLowerCase().replace('_', '-').startsWith(lang.toLowerCase())) || null
+    : null);
 
-  // voice: { rate, volume, pitch } – по желание (напр. за „говори тихо/бързо“).
+  // voice: { rate, volume, pitch, lang } – по желание (напр. „говори тихо“ или английски: lang: 'en-GB').
   function speak(text, voice = {}) {
     if (!canSpeak) return;
     const u = new SpeechSynthesisUtterance(text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, ''));
-    u.lang = 'bg-BG';
+    const lang = voice.lang || 'bg-BG';
+    u.lang = lang;
+    const v = voiceFor(lang) || voiceFor(lang.slice(0, 2));
     u.rate = voice.rate || 0.9;
     if (voice.volume != null) u.volume = voice.volume;
     if (voice.pitch != null) u.pitch = voice.pitch;
-    if (bgVoice) u.voice = bgVoice;
+    if (v) u.voice = v;
     speechSynthesis.cancel();
     speechSynthesis.speak(u);
   }
@@ -623,6 +620,7 @@
           </div>
           <p class="task-q">${speakBtn(t.question)}<span>${esc(t.question)}</span></p>
           ${t.sound ? `<button class="btn btn-ghost sound-btn" type="button" data-tone="${esc(JSON.stringify(t.sound))}">🎵 Чуй звука</button>` : ''}
+          ${t.listen ? `<button class="btn btn-ghost sound-btn" type="button" data-say="${esc(t.listen.text)}" data-voice="${esc(JSON.stringify({ lang: t.listen.lang || 'en-GB', rate: 0.85 }))}">🔊 Чуй думата</button>` : ''}
           ${picture(t.picture, 'pic-task')}
           <div class="options ${options.some((o) => o.picture || o.pic) ? 'has-pictures' : ''} ${options.some((o) => o.label.length > 3) ? 'has-words' : ''}">
             ${options.map((o, i) => `
