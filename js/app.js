@@ -127,20 +127,58 @@
       <section class="hero">
         <div class="hero-owl" aria-hidden="true">🦉</div>
         <h1>Какво ще учим днес?</h1>
-        <p class="lead">Уроци, примери и задачи по всеки предмет от българското училище — от детската градина до 12. клас.</p>
+        <p class="lead">Уроци, примери и задачи по всеки предмет от детската градина до 12. клас.</p>
         ${age ? `<p class="age-pill">🍼 ${name} е на <strong>${esc(age.label)}</strong> — пътешествието започва!</p>` : ''}
       </section>
 
-      <section class="stage-grid" aria-label="Етапи">
-        ${STAGES.map((s) => `
-          <a class="stage-card" data-stage="${s.id}" href="#/stage/${s.id}">
-            ${s.id === nowId ? '<span class="now-badge">Сега сме тук</span>' : ''}
-            <span class="stage-emoji" aria-hidden="true">${s.emoji}</span>
-            <span class="stage-name">${esc(s.name)}</span>
-            <span class="stage-meta">${esc(s.grades)} · ${esc(s.ages)}</span>
-            <span class="stage-desc">${esc(s.description)}</span>
-          </a>`).join('')}
+      <section class="stage-grid" aria-label="Училище">
+        ${STAGES.filter((s) => s.group !== 'after').map((s) => stageCard(s, nowId)).join('')}
+      </section>
+
+      <section class="after-school" aria-labelledby="after-title">
+        <h2 id="after-title">След училище</h2>
+        <p class="lead">Тези раздели ще ги подготвим, след като завършим училищните етапи.</p>
+        <div class="stage-grid">
+          ${STAGES.filter((s) => s.group === 'after').map((s) => stageCard(s, nowId)).join('')}
+        </div>
       </section>`;
+  }
+
+  function stageCard(s, nowId) {
+    return `
+      <a class="stage-card" data-stage="${s.id}" href="#/stage/${s.id}">
+        ${s.id === nowId ? '<span class="now-badge">Сега сме тук</span>' : ''}
+        ${s.group === 'after' ? '<span class="soon-badge">Скоро</span>' : ''}
+        <span class="stage-emoji" aria-hidden="true">${s.emoji}</span>
+        <span class="stage-name">${esc(s.name)}</span>
+        <span class="stage-meta">${esc(s.grades)} · ${esc(s.ages)}</span>
+        <span class="stage-desc">${esc(s.description)}</span>
+      </a>`;
+  }
+
+  // ---------- Рожден ден ----------
+
+  function renderBirthday() {
+    const box = document.getElementById('birthday');
+    const B = window.BIRTHDAY;
+    if (!box || !B || !CONFIG.birthDate) return;
+    const now = new Date();
+    const age = B.ageOn(CONFIG.birthDate, now);
+    if (!B.isBirthday(now) || age < 0 || age > 200) { box.hidden = true; return; }
+
+    const name = CONFIG.learnerName ? `, ${esc(CONFIG.learnerName)}` : '';
+    const ageText = age === 0 ? 'Днес се роди!' : `Днес ставаш на ${plural(age, 'година', 'години')}!`;
+    box.innerHTML = `
+      <div class="birthday-inner">
+        <span class="birthday-cake" aria-hidden="true">🎂</span>
+        <div class="birthday-text">
+          <p class="birthday-title">Честит рожден ден${name}! <span aria-hidden="true">🎉</span></p>
+          <p class="birthday-age">${esc(ageText)}</p>
+          <p class="birthday-wish">${esc(B.wishFor(age))}</p>
+        </div>
+        <span class="birthday-cake" aria-hidden="true">🎈</span>
+      </div>`;
+    box.hidden = false;
   }
 
   function renderStage(stage) {
@@ -448,4 +486,8 @@
 
   window.addEventListener('hashchange', route);
   route();
+
+  // Проверяваме всяка минута, за да се покаже/скрие точно в полунощ.
+  renderBirthday();
+  setInterval(renderBirthday, 60000);
 })();

@@ -114,6 +114,68 @@ window.CURRICULUM = {
         { id: 'art', name: 'Изобразително изкуство', emoji: '🖼️', color: '#9d174d', grades: '8.–10. клас', topics: [] },
         { id: 'pe', name: 'Физическо възпитание и спорт', emoji: '🏅', color: '#4d7c0f', grades: '8.–12. клас', topics: [] }
       ]
+    },
+
+    // ---------- След училище (ще ги развием след училищните етапи) ----------
+    {
+      id: 'uni',
+      theme: 'uni',
+      group: 'after',
+      name: 'Университет',
+      grades: 'Бакалавър и магистър',
+      ages: '18+ години',
+      minAge: 20,
+      maxAge: 24,
+      emoji: '🏛️',
+      description: 'Кандидатстване, избор на специалност и основите на висшето образование.',
+      subjects: [
+        { id: 'apply', name: 'Кандидатстване и избор на специалност', emoji: '🧭', color: '#7c2d12', topics: [] },
+        { id: 'math', name: 'Висша математика', emoji: '∫', color: '#1e3a8a', topics: [] },
+        { id: 'cs', name: 'Програмиране и компютърни науки', emoji: '👩‍💻', color: '#0f766e', topics: [] },
+        { id: 'sciences', name: 'Природни науки', emoji: '🔬', color: '#166534', topics: [] },
+        { id: 'humanities', name: 'Хуманитарни науки', emoji: '📜', color: '#6b21a8', topics: [] },
+        { id: 'econ', name: 'Икономика', emoji: '📈', color: '#b45309', topics: [] },
+        { id: 'law', name: 'Право', emoji: '⚖️', color: '#374151', topics: [] },
+        { id: 'skills', name: 'Как да учим: изпити, курсови работи, проекти', emoji: '📝', color: '#be123c', topics: [] }
+      ]
+    },
+    {
+      id: 'life',
+      theme: 'life',
+      group: 'after',
+      name: 'Живот',
+      grades: 'Практични умения',
+      ages: 'за всяка възраст',
+      emoji: '🌿',
+      description: 'Всичко, на което училището не учи: пари, здраве, дом, документи.',
+      subjects: [
+        { id: 'money', name: 'Лични финанси', emoji: '💰', color: '#15803d', topics: [] },
+        { id: 'health', name: 'Здраве и първа помощ', emoji: '🩺', color: '#dc2626', topics: [] },
+        { id: 'cooking', name: 'Готвене', emoji: '🍳', color: '#ea580c', topics: [] },
+        { id: 'home', name: 'Дом и ремонти', emoji: '🏠', color: '#a16207', topics: [] },
+        { id: 'docs', name: 'Документи и институции', emoji: '🪪', color: '#475569', topics: [] },
+        { id: 'driving', name: 'Шофиране и пътна безопасност', emoji: '🚗', color: '#1d4ed8', topics: [] },
+        { id: 'mind', name: 'Емоции и отношения', emoji: '💬', color: '#db2777', topics: [] },
+        { id: 'digital', name: 'Безопасност в интернет', emoji: '🔐', color: '#0e7490', topics: [] }
+      ]
+    },
+    {
+      id: 'business',
+      theme: 'business',
+      group: 'after',
+      name: 'Бизнес',
+      grades: 'Предприемачество',
+      ages: 'за всяка възраст',
+      emoji: '💼',
+      description: 'Как се създава, управлява и развива собствен бизнес.',
+      subjects: [
+        { id: 'idea', name: 'От идея до бизнес', emoji: '💡', color: '#ca8a04', topics: [] },
+        { id: 'company', name: 'Регистрация на фирма в България', emoji: '🏢', color: '#334155', topics: [] },
+        { id: 'accounting', name: 'Счетоводство и данъци', emoji: '🧾', color: '#0f766e', topics: [] },
+        { id: 'marketing', name: 'Маркетинг и продажби', emoji: '📣', color: '#c026d3', topics: [] },
+        { id: 'management', name: 'Управление на хора и проекти', emoji: '🤝', color: '#2563eb', topics: [] },
+        { id: 'investing', name: 'Инвестиции', emoji: '📊', color: '#16a34a', topics: [] }
+      ]
     }
   ]
 };

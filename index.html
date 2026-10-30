@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Уча с радост</title>
-  <meta name="description" content="Уроци, примери и задачи за всеки предмет в българското училище — от детската градина до 12. клас.">
+  <meta name="description" content="Уроци, примери и задачи по всеки предмет от детската градина до 12. клас.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦉</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-theme="home">
+  <div id="birthday" class="birthday" role="status" hidden></div>
+
   <header class="site-header">
     <a class="logo" href="#/">
       <span class="logo-mark" aria-hidden="true">🦉</span>
@@ -22,10 +24,11 @@
   <main id="app" tabindex="-1"></main>
 
   <footer class="site-footer">
-    Направено с ❤️ за най-малката ученичка
+    Направено с ❤️ от чичи.
   </footer>
 
   <script src="js/config.js"></script>
+  <script src="js/birthday.js"></script>
   <script src="js/curriculum.js"></script>
   <!-- Уроци: всеки урок е отделен файл в js/lessons/ -->
   <script src="js/lessons/kg-math-broim-do-5.js"></script>

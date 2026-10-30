@@ -34,3 +34,7 @@ Block types: `say` (text with a 🔊 button), `text`, `numbers` (number cards), 
 Tasks use multiple choice: `question`, an optional `picture` (`{emoji, count}` or `{sequence: [...]}`), `options`, `answer` and `hint`.
 
 Progress (stars) is saved in the browser's `localStorage`.
+
+## Birthday
+
+On 22 October (all day, by local time) a banner appears at the top with a different wish for each age up to 200. The wishes live in `js/birthday.js`; the birth date is in `js/config.js`.
