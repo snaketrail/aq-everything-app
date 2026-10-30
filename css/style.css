@@ -293,6 +293,9 @@ body[data-theme="high"] main { max-width: 820px; }
   font-size: .9em;
 }
 
+.credits { display: block; margin-top: 6px; font-size: .75rem; opacity: .8; }
+.credits a { color: inherit; }
+
 /* ---------- Общи елементи ---------- */
 
 .lead { font-size: 1.1em; color: var(--muted); max-width: 60ch; }
@@ -767,7 +770,7 @@ body[data-theme="high"] .subject-count { margin: 0; padding: 0; }
 .nc-digit { font-family: var(--font-head); font-size: 3.4rem; font-weight: 700; line-height: 1; }
 .nc-word { font-size: 1.1em; margin-top: 2px; }
 .number-card.is-pop { animation: pop .45s ease; }
-.number-card .pic-small { flex-wrap: nowrap; gap: 1px; font-size: 1.25rem; }
+.number-card .pic-small { gap: 1px; font-size: 1.25rem; max-width: 6.5em; }
 
 /* Броене заедно */
 .count-along { text-align: center; }
@@ -856,6 +859,128 @@ body[data-theme="high"] .lesson-emoji { font-size: 2.4rem; animation: none; }
 body[data-theme="high"] .lesson-head { text-align: left; }
 body[data-theme="high"] .lesson-section { box-shadow: none; padding: 20px 0; background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; }
 body[data-theme="high"] .step { background: transparent; border: 1px solid var(--line); width: 34px; height: 34px; }
+
+/* ---------- Рисунки (Twemoji) ---------- */
+
+img.emo {
+  width: 1em;
+  height: 1em;
+  margin: 0 .05em;
+  vertical-align: -0.125em;
+  display: inline-block;
+  user-select: none;
+}
+
+/* ---------- Още видове картинки и блокове ---------- */
+
+.pic-big { font-size: 5rem; gap: 14px; }
+.pic-task.pic-big { font-size: 5.5rem; }
+
+.pic-scene {
+  position: relative;
+  height: var(--h, 11em);
+  max-width: 22em;
+  margin: 12px auto;
+  font-size: 1rem;
+  border-radius: var(--radius);
+  background: linear-gradient(#e6f6ff 0 72%, #dff3d8 72%);
+  border: var(--border-w) solid var(--line);
+  overflow: hidden;
+}
+.scene-item {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: calc(3rem * var(--s, 1));
+  line-height: 1;
+}
+
+.pic-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+.pic-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 10px 14px;
+  border-radius: var(--radius);
+  border: var(--border-w) solid var(--line);
+  background: color-mix(in srgb, var(--card, var(--accent)) 16%, var(--surface));
+  cursor: pointer;
+  text-align: center;
+  transition: transform .15s ease;
+}
+.pic-card:hover { transform: translateY(-3px); }
+.pic-card.is-pop { animation: pop .45s ease; }
+.pc-pic { font-size: 3.2rem; line-height: 1.1; }
+.pc-label { font-weight: 700; font-size: 1.05em; line-height: 1.2; }
+.pc-sub { font-size: .85em; color: var(--muted); }
+.tone-card .pc-sub { color: var(--primary); font-weight: 700; }
+
+.story { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 14px; counter-reset: panel; }
+.story-panel {
+  counter-increment: panel;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--bg);
+  border: var(--border-w) solid var(--line);
+  position: relative;
+}
+.story-panel::before {
+  content: counter(panel);
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--primary-ink);
+  font-weight: 700;
+  font-size: .9rem;
+}
+.sp-pic { flex: none; font-size: 3rem; line-height: 1; white-space: nowrap; }
+.sp-text { display: flex; align-items: center; margin: 0; min-width: 0; }
+
+.sound-btn { margin: 6px auto 4px; }
+.option { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+.option-pic { font-size: calc(3.4rem * var(--os, 1)); line-height: 1.1; white-space: nowrap; }
+.option-pic + .option-label { font-size: 1.1rem; }
+.options.has-words .option-label { font-size: 1.5rem; }
+.options.has-pictures .option-label { font-size: 1.1rem; }
+
+.topic-group { margin-top: 28px; }
+.group-title { display: flex; align-items: center; gap: 12px; font-size: 1.3em; margin-bottom: 0; }
+.group-badge {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent);
+  font-size: .9em;
+}
+.topic-title small { display: block; font-weight: 400; font-size: .8em; color: var(--muted); }
+
+
+.caption { text-align: center; font-weight: 700; margin: 0 0 8px; }
+
+@media (max-width: 560px) {
+  .pic-big { font-size: 3.8rem; }
+  .pic-cards { grid-template-columns: repeat(2, 1fr); }
+  .pc-pic { font-size: 2.6rem; }
+  .sp-pic { font-size: 2.3rem; }
+  .story-panel { gap: 10px; padding: 12px; }
+  .option-pic { font-size: calc(2.6rem * var(--os, 1)); }
+}
 
 /* ---------- Анимации ---------- */
 

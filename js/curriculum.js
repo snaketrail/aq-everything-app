@@ -7,33 +7,96 @@ window.CURRICULUM = {
       theme: 'kg',
       name: 'Детска градина',
       grades: '1.–4. група',
-      ages: '3–6 години',
+      ages: '3–7 години',
       minAge: 0,
       maxAge: 6,
       emoji: '🧸',
       description: 'Игри, картинки и първите стъпки в ученето.',
+      // Темите следват Наредба № 5 от 2016 г. за предучилищното образование:
+      // седем образователни направления, всяко с образователни ядра (`core`)
+      // и очаквани резултати за всяка възрастова група (`group`).
+      groups: {
+        1: '1. група · 3–4 години',
+        2: '2. група · 4–5 години',
+        3: '3. група · 5–6 години',
+        4: '4. група · 6–7 години'
+      },
       subjects: [
-        { id: 'bel', name: 'Български език', emoji: '🔤', color: '#ff7a59', topics: [
-          { title: 'Звуци около нас' },
-          { title: 'Буквите в моето име' },
-          { title: 'Приказки и стихчета' }
+        { id: 'bel', name: 'Български език и литература', emoji: '🔤', color: '#ff7a59', topics: [
+          { group: 1, title: 'Приказка „Дядо и ряпа“', core: 'Възприемане на литературно произведение', lessonId: 'kg-bel-dyado-i-ryapa' },
+          { group: 1, title: 'Моето име и моето семейство', core: 'Свързана реч', emoji: '👨‍👩‍👧' },
+          { group: 1, title: 'Стихчета и римушки', core: 'Пресъздаване на литературно произведение', emoji: '📜' },
+          { group: 2, title: 'Вълшебните думички', core: 'Речник', lessonId: 'kg-bel-vulshebni-dumichki' },
+          { group: 2, title: 'Опиши играчката си', core: 'Свързана реч', emoji: '🧸' },
+          { group: 2, title: 'Едно и много: ябълка — ябълки', core: 'Граматически правилна реч', emoji: '🍎' },
+          { group: 3, title: 'Гатанки', core: 'Възприемане на литературно произведение', lessonId: 'kg-bel-gatanki' },
+          { group: 3, title: 'Говоря силно и тихо, бързо и бавно', core: 'Звукова култура', emoji: '🗣️' },
+          { group: 3, title: 'Кой какво направи в приказката', core: 'Възприемане на литературно произведение', emoji: '📖' },
+          { group: 4, title: 'С какъв звук започва думата?', core: 'Звукова култура', lessonId: 'kg-bel-parvi-zvuk' },
+          { group: 4, title: 'Колко звука има в думата?', core: 'Звукова култура', emoji: '👂' },
+          { group: 4, title: 'Първите печатни букви', core: 'Звукова култура', emoji: '🔠' },
+          { group: 4, title: 'Подготвяме ръката за писане', core: 'Звукова култура', emoji: '✏️' }
         ] },
         { id: 'math', name: 'Математика', emoji: '🔢', color: '#5ec8f2', topics: [
-          { title: 'Да броим до 5', lessonId: 'kg-math-broim-do-5' },
-          { title: 'Да броим до 10' },
-          { title: 'Кръг, квадрат и триъгълник' },
-          { title: 'Голямо и малко' },
-          { title: 'Повече и по-малко' }
+          { group: 1, title: 'Едно и много', core: 'Количествени отношения', lessonId: 'kg-math-edno-i-mnogo' },
+          { group: 1, title: 'Горе, долу, отпред, отзад', core: 'Пространствени отношения', lessonId: 'kg-math-gore-dolu' },
+          { group: 1, title: 'Голямо и малко, високо и ниско', core: 'Измерване', lessonId: 'kg-math-golyamo-malko' },
+          { group: 1, title: 'Кръг, квадрат и триъгълник', core: 'Геометрични фигури', lessonId: 'kg-math-figuri' },
+          { group: 1, title: 'Ден и нощ', core: 'Времеви отношения', emoji: '🌗' },
+          { group: 2, title: 'Да броим до 5', core: 'Количествени отношения', lessonId: 'kg-math-broim-do-5' },
+          { group: 2, title: 'Сутрин, обед, вечер, нощ', core: 'Времеви отношения', lessonId: 'kg-math-chasti-na-denonoshtieto' },
+          { group: 2, title: 'Поравно, повече и по-малко', core: 'Количествени отношения', emoji: '⚖️' },
+          { group: 2, title: 'Дълго и късо', core: 'Измерване', emoji: '📏' },
+          { group: 2, title: 'Близо и далече', core: 'Пространствени отношения', emoji: '🔭' },
+          { group: 3, title: 'Да броим до 10', core: 'Количествени отношения', lessonId: 'kg-math-broim-do-10' },
+          { group: 3, title: 'Кой е пръв? Място в редица', core: 'Количествени отношения', emoji: '🥇' },
+          { group: 3, title: 'Вчера, днес, утре', core: 'Времеви отношения', emoji: '📆' },
+          { group: 3, title: 'Правоъгълник', core: 'Геометрични фигури', emoji: '▭' },
+          { group: 3, title: 'Лек и тежък', core: 'Измерване', emoji: '🪶' },
+          { group: 4, title: 'Дните на седмицата', core: 'Времеви отношения', lessonId: 'kg-math-dni-na-sedmicata' },
+          { group: 4, title: 'Събиране и изваждане с предмети', core: 'Количествени отношения', emoji: '➕' },
+          { group: 4, title: 'Наляво и надясно', core: 'Пространствени отношения', emoji: '↔️' },
+          { group: 4, title: 'Месеците и сезоните', core: 'Времеви отношения', emoji: '🗓️' },
+          { group: 4, title: 'Лабиринти и квадратна мрежа', core: 'Пространствени отношения', emoji: '🧭' }
         ] },
         { id: 'world', name: 'Околен свят', emoji: '🌳', color: '#7bdcb5', topics: [
-          { title: 'Сезоните' },
-          { title: 'Домашни и диви животни' },
-          { title: 'Моето семейство' }
+          { group: 1, title: 'Домашни животни и техните малки', core: 'Светът на природата и неговото опазване', lessonId: 'kg-world-domashni-zhivotni' },
+          { group: 1, title: 'Мием си ръцете', core: 'Социална и здравословна среда', lessonId: 'kg-world-higiena' },
+          { group: 1, title: 'Аз и моето семейство', core: 'Самоутвърждаване и общуване с околните', emoji: '🏡' },
+          { group: 2, title: 'Годишните сезони', core: 'Светът на природата и неговото опазване', lessonId: 'kg-world-sezoni' },
+          { group: 2, title: 'Светофарът и пешеходната пътека', core: 'Социална и здравословна среда', lessonId: 'kg-world-svetofar' },
+          { group: 2, title: 'Диви животни в гората', core: 'Светът на природата и неговото опазване', emoji: '🦊' },
+          { group: 3, title: 'Моята родина — България', core: 'Културни и национални ценности', lessonId: 'kg-world-bulgaria' },
+          { group: 3, title: 'Професиите', core: 'Социална и здравословна среда', lessonId: 'kg-world-profesii' },
+          { group: 3, title: 'Растенията около нас', core: 'Светът на природата и неговото опазване', emoji: '🌻' },
+          { group: 4, title: 'Празниците 3 март и 24 май', core: 'Културни и национални ценности', emoji: '📚' },
+          { group: 4, title: 'Скоро ще бъда ученик', core: 'Социална и здравословна среда', emoji: '🎒' },
+          { group: 4, title: 'Пазим природата чиста', core: 'Светът на природата и неговото опазване', emoji: '♻️' }
         ] },
-        { id: 'art', name: 'Изобразително изкуство', emoji: '🎨', color: '#c38bff', topics: [] },
-        { id: 'music', name: 'Музика', emoji: '🎵', color: '#ffb84d', topics: [] },
-        { id: 'tech', name: 'Конструиране и технологии', emoji: '🧩', color: '#ff8fb1', topics: [] },
-        { id: 'pe', name: 'Физическа култура', emoji: '⚽', color: '#5fd068', topics: [] }
+        { id: 'art', name: 'Изобразително изкуство', emoji: '🎨', color: '#c38bff', topics: [
+          { group: 1, title: 'Цветовете', core: 'Изобразителни материали и техники', lessonId: 'kg-art-cvetove' },
+          { group: 2, title: 'Прави и криви линии', core: 'Изобразителни материали и техники', emoji: '〰️' },
+          { group: 3, title: 'Апликация от изрязани форми', core: 'Изобразително творчество', emoji: '✂️' },
+          { group: 4, title: 'Шевици и мартеници', core: 'Художествено възприемане', emoji: '🧵' }
+        ] },
+        { id: 'music', name: 'Музика', emoji: '🎵', color: '#ffb84d', topics: [
+          { group: 1, title: 'Силно и тихо, високо и ниско', core: 'Елементи на музикалната изразност', lessonId: 'kg-music-silno-tiho' },
+          { group: 2, title: 'Музикалните инструменти', core: 'Възприемане', lessonId: 'kg-music-instrumenti' },
+          { group: 3, title: 'Марш, валс, хоро и ръченица', core: 'Възприемане', emoji: '💃' },
+          { group: 4, title: 'Певец, музикант и слушател', core: 'Възпроизвеждане', emoji: '🎤' }
+        ] },
+        { id: 'tech', name: 'Конструиране и технологии', emoji: '🧩', color: '#ff8fb1', topics: [
+          { group: 1, title: 'Късаме и лепим хартия', core: 'Обработване на материали', emoji: '📄' },
+          { group: 2, title: 'Хартия, плат и природни материали', core: 'Обработване на материали', lessonId: 'kg-tech-materiali' },
+          { group: 3, title: 'Сгъваме хартия', core: 'Конструиране и моделиране', emoji: '🗂️' },
+          { group: 4, title: 'Обличам се сама', core: 'Грижи и инициативност', emoji: '👗' }
+        ] },
+        { id: 'pe', name: 'Физическа култура', emoji: '⚽', color: '#5fd068', topics: [
+          { group: 1, title: 'Движи се като животните', core: 'Естествено-приложна двигателна дейност', lessonId: 'kg-pe-kato-zhivotnite' },
+          { group: 2, title: 'Хвърляме и ловим топка', core: 'Естествено-приложна двигателна дейност', emoji: '🏐' },
+          { group: 3, title: 'Скачаме на въже', core: 'Естествено-приложна двигателна дейност', emoji: '🪢' },
+          { group: 4, title: 'Щафетни игри', core: 'Игрова двигателна дейност', emoji: '🏃' }
+        ] }
       ]
     },
     {

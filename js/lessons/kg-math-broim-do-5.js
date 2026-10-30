@@ -3,6 +3,7 @@ window.LESSONS = window.LESSONS || {};
 window.LESSONS['kg-math-broim-do-5'] = {
   stage: 'kg',
   subject: 'math',
+  group: 2,
   title: 'Да броим до 5',
   emoji: '🖐️',
   minutes: 10,

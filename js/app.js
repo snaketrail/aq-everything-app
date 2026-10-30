@@ -59,6 +59,34 @@
     speechSynthesis.speak(u);
   }
 
+  // ---------- Звуци (Web Audio) ----------
+  // Мелодия = списък от ноти { f: честота в Hz (0 = пауза), d: продължителност в s, v: сила 0–1 }.
+
+  let audio = null;
+  function playNotes(notes) {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx || !notes) return;
+    audio = audio || new Ctx();
+    if (audio.state === 'suspended') audio.resume();
+    let t = audio.currentTime + 0.05;
+    notes.forEach((n) => {
+      if (n.f) {
+        const osc = audio.createOscillator();
+        const gain = audio.createGain();
+        osc.type = n.type || 'triangle';
+        osc.frequency.value = n.f;
+        const vol = 0.35 * (n.v == null ? 0.7 : n.v);
+        gain.gain.setValueAtTime(0.0001, t);
+        gain.gain.exponentialRampToValueAtTime(vol, t + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + n.d);
+        osc.connect(gain).connect(audio.destination);
+        osc.start(t);
+        osc.stop(t + n.d + 0.02);
+      }
+      t += n.d;
+    });
+  }
+
   const speakBtn = (text) => canSpeak
     ? `<button class="speak" type="button" data-say="${esc(text)}" aria-label="Чуй на глас" title="Чуй на глас">🔊</button>`
     : '';
@@ -92,11 +120,27 @@
 
   // ---------- Картинки ----------
 
+  // Текст за картинка: емоджита + собствени рисунки като [ryapa] → assets/img/ryapa.svg
+  const pics = (str) => esc(str).replace(/\[([a-z0-9-]+)\]/g, '<img class="emo" src="assets/img/$1.svg" alt="">');
+
+  // Видове картинки:
+  //   { emoji: '🍎', count: 3 }               – няколко еднакви предмета
+  //   { sequence: ['1', '2', '?'] }            – редица от квадратчета
+  //   { pic: '☀️' }                            – една голяма картинка (може и няколко емоджита)
+  //   { scene: [{ pic, x, y, size }] }         – сцена: x, y в % от кутията, size = мащаб (1 = нормално)
   function picture(p, extraClass = '') {
     if (!p) return '';
+    if (typeof p === 'string') p = { pic: p };
+    if (p.pic) {
+      return `<div class="pic pic-big ${extraClass}">${pics(p.pic)}</div>`;
+    }
+    if (p.scene) {
+      return `<div class="pic-scene ${extraClass}" style="--h:${p.height || 11}em">${p.scene.map((s) =>
+        `<span class="scene-item" style="left:${s.x}%;top:${s.y}%;--s:${s.size || 1}">${pics(s.pic)}</span>`).join('')}</div>`;
+    }
     if (p.sequence) {
       return `<div class="pic pic-seq ${extraClass}">${p.sequence.map((x) =>
-        `<span class="seq-item${x === '?' ? ' is-mystery' : ''}">${esc(x)}</span>`).join('')}</div>`;
+        `<span class="seq-item${x === '?' ? ' is-mystery' : ''}">${pics(x)}</span>`).join('')}</div>`;
     }
     const items = Array.from({ length: p.count }, (_, i) =>
       `<span class="pic-item" style="--i:${i}">${p.emoji}</span>`).join('');
@@ -221,28 +265,49 @@
         </div>
       </header>
 
-      ${topics.length ? `
-        <ol class="topic-list" style="--c:${subject.color}">
-          ${topics.map((t, i) => {
-            const lesson = t.lessonId && LESSONS[t.lessonId];
-            if (!lesson) {
-              return `<li class="topic is-soon"><span class="topic-num">${i + 1}</span><span class="topic-title">${esc(t.title)}</span><span class="topic-tag">Скоро</span></li>`;
-            }
-            const done = progress.get(t.lessonId);
-            return `
-              <li class="topic">
-                <a href="#/lesson/${t.lessonId}">
-                  <span class="topic-num">${lesson.emoji || i + 1}</span>
-                  <span class="topic-title">${esc(t.title)}</span>
-                  <span class="topic-tag ${done ? 'is-done' : ''}">${done ? `⭐ ${done.stars}/${done.total}` : 'Започни →'}</span>
-                </a>
-              </li>`;
-          }).join('')}
-        </ol>` : `
+      ${topics.length ? topicSections(stage, subject) : `
         <div class="empty">
           <span aria-hidden="true">🌱</span>
           <p>Уроците по този предмет се подготвят. Скоро ще са тук!</p>
         </div>`}`;
+  }
+
+  // Темите се показват по възрастови групи, ако етапът има такива (детската градина).
+  function topicSections(stage, subject) {
+    const list = (topics) => `
+      <ol class="topic-list" style="--c:${subject.color}">${topics.map(topicItem).join('')}</ol>`;
+    if (!stage.groups || !subject.topics.some((t) => t.group)) return list(subject.topics);
+
+    return Object.keys(stage.groups).map((g) => {
+      const topics = subject.topics.filter((t) => String(t.group) === g);
+      if (!topics.length) return '';
+      return `
+        <section class="topic-group">
+          <h2 class="group-title"><span class="group-badge">${g}</span>${esc(stage.groups[g])}</h2>
+          ${list(topics)}
+        </section>`;
+    }).join('');
+  }
+
+  function topicItem(t) {
+    const lesson = t.lessonId && LESSONS[t.lessonId];
+    if (!lesson) {
+      return `
+        <li class="topic is-soon">
+          <span class="topic-num">${t.emoji || '•'}</span>
+          <span class="topic-title">${esc(t.title)}${t.core ? `<small>${esc(t.core)}</small>` : ''}</span>
+          <span class="topic-tag">Скоро</span>
+        </li>`;
+    }
+    const done = progress.get(t.lessonId);
+    return `
+      <li class="topic">
+        <a href="#/lesson/${t.lessonId}">
+          <span class="topic-num">${pics(lesson.emoji)}</span>
+          <span class="topic-title">${esc(t.title)}${t.core ? `<small>${esc(t.core)}</small>` : ''}</span>
+          <span class="topic-tag ${done ? 'is-done' : ''}">${done ? `⭐ ${done.stars}/${done.total}` : 'Започни →'}</span>
+        </a>
+      </li>`;
   }
 
   // ---------- Урок ----------
@@ -271,6 +336,35 @@
             <button class="btn btn-ghost ca-reset" type="button">↺ Отначало</button>
           </div>`;
 
+      case 'cards':
+        // Картички с картинка и надпис; натискането чете надписа (или `say`).
+        return `<div class="pic-cards">${b.items.map((it) => `
+          <button class="pic-card" type="button" data-say="${esc(it.say || it.label)}" ${it.color ? `style="--card:${it.color}"` : ''}>
+            <span class="pc-pic">${pics(it.pic)}</span>
+            <span class="pc-label">${esc(it.label)}</span>
+            ${it.sub ? `<span class="pc-sub">${esc(it.sub)}</span>` : ''}
+          </button>`).join('')}</div>`;
+
+      case 'story':
+        // Приказка или стъпки: номерирани картинки с текст.
+        return `<ol class="story">${b.panels.map((p) => `
+          <li class="story-panel">
+            <span class="sp-pic">${pics(p.pic)}</span>
+            <p class="sp-text">${speakBtn(p.text)}<span>${esc(p.text)}</span></p>
+          </li>`).join('')}</ol>`;
+
+      case 'tones':
+        // Бутони, които свирят кратки мелодии (без звукови файлове).
+        return `<div class="pic-cards">${b.items.map((it, i) => `
+          <button class="pic-card tone-card" type="button" data-tone="${esc(JSON.stringify(it.notes))}" data-i="${i}">
+            <span class="pc-pic">${pics(it.pic)}</span>
+            <span class="pc-label">${esc(it.label)}</span>
+            <span class="pc-sub">▶ Чуй</span>
+          </button>`).join('')}</div>`;
+
+      case 'picture':
+        return `${picture(b.picture)}${b.caption ? `<p class="caption">${esc(b.caption)}</p>` : ''}`;
+
       case 'text':
         return `<p>${esc(b.text)}</p>`;
 
@@ -295,9 +389,9 @@
       ])}
 
       <header class="lesson-head" style="--c:${subject.color}">
-        <span class="lesson-emoji" aria-hidden="true">${lesson.emoji}</span>
+        <span class="lesson-emoji" aria-hidden="true">${pics(lesson.emoji)}</span>
         <h1>${esc(lesson.title)}</h1>
-        ${lesson.minutes ? `<p class="page-sub">⏱️ около ${lesson.minutes} минути</p>` : ''}
+        <p class="page-sub">${lesson.group && stage.groups ? `${esc(stage.groups[lesson.group])}` : ''}${lesson.group && stage.groups && lesson.minutes ? ' · ' : ''}${lesson.minutes ? `⏱️ около ${lesson.minutes} минути` : ''}</p>
       </header>
 
       <p class="say intro">${speakBtn(lesson.intro)}<span>${esc(lesson.intro)}</span></p>
@@ -364,7 +458,10 @@
     let index = 0;
     let stars = 0;
 
-    const normalize = (o) => (typeof o === 'object' ? { label: String(o.value), ...o } : { value: o, label: String(o) });
+    // Отговор: число/текст или { value, label?, pic?, picture? }.
+    const normalize = (o) => (typeof o === 'object'
+      ? { label: o.pic || o.picture ? '' : String(o.value), ...o }
+      : { value: o, label: String(o) });
 
     function showTask() {
       const t = tasks[index];
@@ -377,11 +474,14 @@
             ${tasks.map((_, i) => `<span class="dot ${i < index ? 'is-done' : ''} ${i === index ? 'is-current' : ''}"></span>`).join('')}
           </div>
           <p class="task-q">${speakBtn(t.question)}<span>${esc(t.question)}</span></p>
+          ${t.sound ? `<button class="btn btn-ghost sound-btn" type="button" data-tone="${esc(JSON.stringify(t.sound))}">🎵 Чуй звука</button>` : ''}
           ${picture(t.picture, 'pic-task')}
-          <div class="options ${options.some((o) => o.picture) ? 'has-pictures' : ''}">
+          <div class="options ${options.some((o) => o.picture || o.pic) ? 'has-pictures' : ''} ${options.some((o) => o.label.length > 3) ? 'has-words' : ''}">
             ${options.map((o, i) => `
               <button class="option" type="button" data-i="${i}">
-                ${o.picture ? picture(o.picture, 'pic-small') : `<span class="option-label">${esc(o.label)}</span>`}
+                ${o.picture ? picture(o.picture, 'pic-small') : ''}
+                ${o.pic ? `<span class="option-pic" ${o.size ? `style="--os:${o.size}"` : ''}>${pics(o.pic)}</span>` : ''}
+                ${o.label ? `<span class="option-label">${esc(o.label)}</span>` : ''}
               </button>`).join('')}
           </div>
           <p class="feedback" aria-live="polite"></p>
@@ -474,10 +574,18 @@
 
   // Бутоните „Чуй“ и картичките с числа работят навсякъде.
   document.addEventListener('click', (e) => {
+    const tone = e.target.closest('[data-tone]');
+    if (tone) {
+      playNotes(JSON.parse(tone.dataset.tone));
+      tone.classList.remove('is-pop');
+      void tone.offsetWidth;
+      tone.classList.add('is-pop');
+      return;
+    }
     const el = e.target.closest('[data-say]');
     if (!el) return;
     speak(el.dataset.say);
-    if (el.classList.contains('number-card')) {
+    if (el.classList.contains('number-card') || el.classList.contains('pic-card')) {
       el.classList.remove('is-pop');
       void el.offsetWidth;
       el.classList.add('is-pop');

@@ -18,22 +18,44 @@ Settings → Pages → Source: "Deploy from a branch" → pick the branch and `/
 
 | File | What it holds |
 |---|---|
-| `js/config.js` | Birth date (used to mark the current stage), optional name |
-| `js/curriculum.js` | Stages → subjects → topics. A topic with `lessonId` links to a lesson |
+| `js/config.js` | Birth date (used to mark the current stage and for the birthday banner), optional name |
+| `js/curriculum.js` | Stages → subjects → topics. A topic with `lessonId` links to a lesson. Kindergarten topics carry `group` (1–4) and `core` (образователно ядро) |
 | `js/lessons/*.js` | One file per lesson |
-| `js/app.js` | Router, page rendering, tasks, read-aloud |
-| `css/style.css` | One theme per stage: `kg`, `primary`, `middle`, `high` |
+| `js/app.js` | Router, page rendering, tasks, read-aloud, sounds |
+| `js/emoji.js` | Swaps emoji for local Twemoji drawings so pictures look the same on every device |
+| `assets/emoji/` | Twemoji SVGs actually used (generated, see below) |
+| `assets/img/` | Our own drawings, used in content as `[name]` (e.g. `[ryapa]`) |
+| `css/style.css` | One theme per stage |
+
+## Kindergarten curriculum
+
+Topics follow **Наредба № 5 от 3 юни 2016 г. за предучилищното образование** (consolidated text, 2021): seven
+educational areas, each split into образователни ядра, with expected results for 1.–4. група.
 
 ## Adding a lesson
 
-1. Copy `js/lessons/kg-math-broim-do-5.js` and change the id and content.
+1. Copy any file in `js/lessons/` and change the id and content.
 2. Add a `<script>` tag for it in `index.html`.
 3. Set `lessonId` on the matching topic in `js/curriculum.js`.
+4. If you used new emoji, refresh the drawings:
 
-Block types: `say` (text with a 🔊 button), `text`, `numbers` (number cards), `countAlong` (tap-to-count).
-Tasks use multiple choice: `question`, an optional `picture` (`{emoji, count}` or `{sequence: [...]}`), `options`, `answer` and `hint`.
+```bash
+npm install --prefix /tmp/tw @twemoji/svg@15.0.0
+node tools/sync-emoji.js /tmp/tw/node_modules/@twemoji/svg
+```
+
+Block types: `say`, `text`, `numbers`, `countAlong` (tap-to-count), `cards` (picture cards, read aloud on tap),
+`story` (numbered panels), `picture`, `tones` (buttons that play short melodies).
+
+Pictures: `{ emoji, count }`, `{ sequence: [...] }`, `{ pic: '☀️' }` or `{ scene: [{ pic, x, y, size }] }`.
+
+Tasks are multiple choice: `question`, optional `picture` or `sound`, `options` (plain values or `{ value, label, pic, size }`), `answer`, `hint`.
 
 Progress (stars) is saved in the browser's `localStorage`.
+
+## Credits
+
+Drawings: [Twemoji](https://github.com/jdecked/twemoji), CC-BY 4.0.
 
 ## Birthday
 
