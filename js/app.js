@@ -55,15 +55,45 @@
     if (!stage.groups) return '';
     const g = selectedGroup(stage);
     const label = stage.groupLabel || 'Клас';
-    return `
+    const entries = Object.entries(stage.groups);
+    const btn = (k, text, cls = '') => `<button type="button" class="gs-btn ${cls} ${k === g ? 'is-active' : ''}" data-group-btn="${stage.id}" data-g="${k}" aria-pressed="${k === g}">${text}</button>`;
+    switch (stage.theme) {
+      case 'kg': {
+        const chicks = ['🐣', '🐥', '🐤', '🦉'];
+        return `<div class="group-switch gs-kg" role="group" aria-label="${esc(label)}">${entries.map(([k, v], i) =>
+          btn(k, `<span class="gs-pic">${chicks[i] || '⭐'}</span><span class="gs-name">${esc(v.split(' · ')[0])}</span><small>${esc(v.split(' · ')[1] || '')}</small>`)).join('')}</div>`;
+      }
+      case 'primary':
+        return `<div class="group-switch gs-tabs" role="group" aria-label="${esc(label)}">${entries.map(([k, v]) => btn(k, esc(v))).join('')}${btn('all', 'Всички', 'gs-all')}</div>`;
+      case 'middle':
+        return `<div class="group-switch gs-seg" role="group" aria-label="${esc(label)}">${entries.map(([k, v]) => btn(k, esc(v))).join('')}${btn('all', 'Всички')}</div>`;
+      case 'high':
+        return `<div class="group-switch gs-text" role="group" aria-label="${esc(label)}"><span class="gs-label">${esc(label)}:</span>${entries.map(([k]) => btn(k, esc(k))).join('<span class="gs-sep">·</span>')}<span class="gs-sep">·</span>${btn('all', 'всички')}</div>`;
+      default:
+        return `
       <label class="group-picker">
         <span>${esc(label)}:</span>
         <select data-group-select="${stage.id}">
-          ${Object.entries(stage.groups).map(([k, v]) => `<option value="${k}" ${k === g ? 'selected' : ''}>${esc(v)}</option>`).join('')}
+          ${entries.map(([k, v]) => `<option value="${k}" ${k === g ? 'selected' : ''}>${esc(v)}</option>`).join('')}
           <option value="all" ${g === 'all' ? 'selected' : ''}>Всички</option>
         </select>
       </label>`;
+    }
   }
+
+  // Колко урока има и колко са минати в даден предмет (за избрания клас).
+  function subjectStats(stage, sub, g) {
+    const topics = sub.topics.filter((t) => inGroup(t, g));
+    const ready = topics.filter((t) => t.lessonId && LESSONS[t.lessonId]);
+    const done = ready.filter((t) => progress.get(t.lessonId));
+    const stars = done.reduce((a, t) => a + progress.get(t.lessonId).stars, 0);
+    const planned = sub.hours && g !== 'all' ? sub.hours[g] || 0 : 0;
+    return { topics, ready, done, stars, planned };
+  }
+  const visibleSubjects = (stage, g) => stage.subjects.filter((sub) =>
+    g === 'all' || !sub.topics.some((t) => t.group) || sub.topics.some((t) => inGroup(t, g)));
+  const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX'];
+  const shortName = (name) => name.replace('Български език и литература', 'Български език').replace(' и предприемачество', '').replace('Физическо възпитание и спорт', 'Спорт').replace('Изобразително изкуство', 'Рисуване');
 
   // ---------- Четене на глас ----------
 
@@ -280,8 +310,145 @@
 
   function renderStage(stage) {
     setTheme(stage.theme);
+    const g = selectedGroup(stage);
+    const subs = visibleSubjects(stage, g);
+    const crumb = crumbs([{ label: 'Начало', href: '#/' }, { label: stage.name }]);
+    const name = esc(CONFIG.learnerName || 'приятел');
+
+    if (stage.theme === 'kg') {
+      app.innerHTML = `
+        ${crumb}
+        <div class="mascot-say kg-hello">
+          <span class="mascot" aria-hidden="true">🦉</span>
+          <p class="bubble">Здравей, ${name}! С какво ще играем днес?</p>
+        </div>
+        ${groupPicker(stage)}
+        <section class="kg-bubbles" aria-label="Занимания">
+          ${subs.map((sub) => {
+            const st = subjectStats(stage, sub, g);
+            return `
+              <a class="kg-bubble" style="--c:${sub.color}" href="#/stage/${stage.id}/${sub.id}">
+                <span class="kg-bubble-pic" aria-hidden="true">${sub.emoji}</span>
+                <span class="kg-bubble-name">${esc(shortName(sub.name))}</span>
+                <span class="kg-bubble-stars">${st.ready.length ? `${'⭐'.repeat(Math.min(3, st.done.length))}${st.done.length ? '' : '▶'}` : '…'}</span>
+              </a>`;
+          }).join('')}
+        </section>`;
+      return;
+    }
+
+    if (stage.theme === 'primary') {
+      app.innerHTML = `
+        ${crumb}
+        <header class="nb-head">
+          <span class="nb-head-pic" aria-hidden="true">${stage.emoji}</span>
+          <div><h1>Моята раница</h1><p class="page-sub">${esc(stage.name)} · ${esc(stage.grades)}</p></div>
+        </header>
+        ${groupPicker(stage)}
+        <section class="nb-shelf" aria-label="Предмети">
+          ${subs.map((sub) => {
+            const st = subjectStats(stage, sub, g);
+            return `
+              <a class="nb-book" style="--c:${sub.color}" href="#/stage/${stage.id}/${sub.id}">
+                <span class="nb-label">
+                  <span class="nb-emoji" aria-hidden="true">${sub.emoji}</span>
+                  <span class="nb-name">${esc(sub.name)}</span>
+                  <span class="nb-line">${g === 'all' ? esc(stage.grades) : esc(stage.groups[g] || '')}</span>
+                </span>
+                <span class="nb-count">${st.ready.length ? plural(st.ready.length, 'урок', 'урока') : 'Скоро'}${st.done.length ? ` · ✔ ${st.done.length}` : ''}</span>
+              </a>`;
+          }).join('')}
+        </section>`;
+      return;
+    }
+
+    if (stage.theme === 'middle') {
+      const all = subs.map((sub) => ({ sub, st: subjectStats(stage, sub, g) }));
+      const total = all.reduce((a, x) => a + x.st.ready.length, 0);
+      const done = all.reduce((a, x) => a + x.st.done.length, 0);
+      const stars = all.reduce((a, x) => a + x.st.stars, 0);
+      let next = null;
+      for (const { sub, st } of all) {
+        const t = st.ready.find((x) => !progress.get(x.lessonId));
+        if (t) { next = { sub, t, l: LESSONS[t.lessonId] }; break; }
+      }
+      const pct = (a, b2) => (b2 ? Math.round((a / b2) * 100) : 0);
+      app.innerHTML = `
+        ${crumb}
+        <div class="app-shell">
+          <aside class="app-side">
+            <p class="app-side-title">${stage.emoji} ${esc(stage.name)}</p>
+            ${groupPicker(stage)}
+            <nav class="app-nav" aria-label="Предмети">
+              ${all.map(({ sub, st }) => `
+                <a class="app-nav-item" style="--c:${sub.color}" href="#/stage/${stage.id}/${sub.id}">
+                  <span class="app-dot" aria-hidden="true"></span>
+                  <span class="app-nav-name">${esc(sub.name)}</span>
+                  <span class="app-badge">${st.ready.length}</span>
+                </a>`).join('')}
+            </nav>
+          </aside>
+          <div class="app-main">
+            <header class="app-hello">
+              <h1>Здравей, ${name} 👋</h1>
+              <p class="page-sub">${g === 'all' ? esc(stage.grades) : esc(stage.groups[g])} · ${esc(stage.description)}</p>
+            </header>
+            <div class="app-stats">
+              <div class="app-stat"><strong>${total}</strong><span>урока</span></div>
+              <div class="app-stat"><strong>${done}</strong><span>завършени</span></div>
+              <div class="app-stat"><strong>${stars}</strong><span>звезди</span></div>
+              <div class="app-stat"><strong>${pct(done, total)}%</strong><span>напредък</span></div>
+            </div>
+            ${next ? `
+              <h2 class="app-h2">Продължи</h2>
+              <a class="app-next" style="--c:${next.sub.color}" href="#/lesson/${next.t.lessonId}">
+                <span class="app-next-pic" aria-hidden="true">${pics(next.l.emoji)}</span>
+                <span class="app-next-text"><small>${esc(next.sub.name)}</small>${esc(next.l.title)}</span>
+                <span class="btn btn-primary">Започни</span>
+              </a>` : ''}
+            <h2 class="app-h2">Предмети</h2>
+            <div class="app-cards">
+              ${all.map(({ sub, st }) => `
+                <a class="app-card" style="--c:${sub.color}" href="#/stage/${stage.id}/${sub.id}">
+                  <span class="app-card-top"><span class="app-card-pic" aria-hidden="true">${sub.emoji}</span><span class="app-card-name">${esc(sub.name)}</span></span>
+                  <span class="app-progress" role="progressbar" aria-valuenow="${pct(st.done.length, st.ready.length)}" aria-valuemin="0" aria-valuemax="100"><span style="width:${pct(st.done.length, st.ready.length)}%"></span></span>
+                  <span class="app-card-meta">${st.done.length} / ${st.ready.length} урока</span>
+                </a>`).join('')}
+            </div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    if (stage.theme === 'high') {
+      app.innerHTML = `
+        ${crumb}
+        <header class="book-head">
+          <p class="book-kicker">${esc(stage.name)} · ${esc(stage.grades)}</p>
+          <h1>Съдържание</h1>
+          <p class="book-lead">${esc(stage.description)}</p>
+        </header>
+        ${groupPicker(stage)}
+        <ol class="book-toc">
+          ${subs.map((sub, i) => {
+            const st = subjectStats(stage, sub, g);
+            const first = st.ready.slice(0, 3).map((t) => t.title).join(' · ');
+            return `
+              <li>
+                <a href="#/stage/${stage.id}/${sub.id}">
+                  <span class="toc-num">${ROMAN[i] || i + 1}</span>
+                  <span class="toc-name">${esc(sub.name)}${first ? `<small>${esc(first)}</small>` : ''}</span>
+                  <span class="toc-leader" aria-hidden="true"></span>
+                  <span class="toc-count">${st.ready.length ? plural(st.ready.length, 'урок', 'урока') : '—'}</span>
+                </a>
+              </li>`;
+          }).join('')}
+        </ol>`;
+      return;
+    }
+
     app.innerHTML = `
-      ${crumbs([{ label: 'Начало', href: '#/' }, { label: stage.name }])}
+      ${crumb}
       <header class="page-head">
         <span class="page-emoji" aria-hidden="true">${stage.emoji}</span>
         <div>
@@ -291,15 +458,9 @@
       </header>
       <p class="lead">${esc(stage.description)}</p>
       ${groupPicker(stage)}
-
       <section class="subject-grid" aria-label="Предмети">
-        ${stage.subjects.filter((sub) => {
-          // Скриваме предметите, които не се учат в избрания клас.
-          const g = selectedGroup(stage);
-          return g === 'all' || !sub.topics.some((t) => t.group) || sub.topics.some((t) => inGroup(t, g));
-        }).map((sub) => {
-          const g = selectedGroup(stage);
-          const n = sub.topics.filter((t) => inGroup(t, g) && t.lessonId && LESSONS[t.lessonId]).length;
+        ${subs.map((sub) => {
+          const n = subjectStats(stage, sub, g).ready.length;
           return `
             <a class="subject-card" style="--c:${sub.color}" href="#/stage/${stage.id}/${sub.id}">
               <span class="subject-emoji" aria-hidden="true">${sub.emoji}</span>
@@ -313,9 +474,67 @@
 
   function renderSubject(stage, subject) {
     setTheme(stage.theme);
-    const topics = subject.topics;
+    const crumb = crumbs([{ label: 'Начало', href: '#/' }, { label: stage.name, href: `#/stage/${stage.id}` }, { label: subject.name }]);
+    const picker = subject.topics.some((t) => t.group) ? groupPicker(stage) : '';
+    const body = subject.topics.length ? topicSections(stage, subject) : `
+        <div class="empty">
+          <span aria-hidden="true">🌱</span>
+          <p>Уроците по този предмет се подготвят. Скоро ще са тук!</p>
+        </div>`;
+    const g = selectedGroup(stage);
+    const st = subjectStats(stage, subject, g);
+
+    if (stage.theme === 'high') {
+      app.innerHTML = `
+        ${crumb}
+        <header class="book-head" style="--c:${subject.color}">
+          <p class="book-kicker">${esc(stage.name)}${subject.grades ? ' · ' + esc(subject.grades) : ''}</p>
+          <h1>${esc(subject.name)}</h1>
+          <p class="book-lead">${plural(st.ready.length, 'урок', 'урока')}${st.planned ? ` от около ${st.planned} часа по учебен план` : ''}${st.done.length ? ` · ${st.done.length} прочетени` : ''}</p>
+        </header>
+        ${picker}${body}`;
+      return;
+    }
+    if (stage.theme === 'middle') {
+      const pct = st.ready.length ? Math.round((st.done.length / st.ready.length) * 100) : 0;
+      app.innerHTML = `
+        ${crumb}
+        <header class="app-subject-head" style="--c:${subject.color}">
+          <span class="app-card-pic" aria-hidden="true">${subject.emoji}</span>
+          <div class="app-subject-text">
+            <h1>${esc(subject.name)}</h1>
+            <p class="page-sub">${st.done.length} от ${plural(st.ready.length, 'урок', 'урока')} · ${st.stars} ⭐${st.planned ? ` · по учебен план около ${st.planned} часа` : ''}</p>
+            <span class="app-progress"><span style="width:${pct}%"></span></span>
+          </div>
+        </header>
+        ${picker}${body}`;
+      return;
+    }
+    if (stage.theme === 'kg') {
+      app.innerHTML = `
+        ${crumb}
+        <div class="mascot-say kg-hello" style="--c:${subject.color}">
+          <span class="mascot" aria-hidden="true">${subject.emoji}</span>
+          <p class="bubble">${esc(subject.name)}! Избери картинка.</p>
+        </div>
+        ${picker}${body}`;
+      return;
+    }
+    if (stage.theme === 'primary') {
+      app.innerHTML = `
+        ${crumb}
+        <header class="nb-cover" style="--c:${subject.color}">
+          <span class="nb-cover-label">
+            <span class="nb-emoji" aria-hidden="true">${subject.emoji}</span>
+            <span class="nb-cover-title">${esc(subject.name)}</span>
+            <span class="nb-line">Тетрадка на ${esc(CONFIG.learnerName || '')}${st.planned ? ` · ${st.ready.length} от ≈${st.planned} урока` : ''}</span>
+          </span>
+        </header>
+        ${picker}${body}`;
+      return;
+    }
     app.innerHTML = `
-      ${crumbs([{ label: 'Начало', href: '#/' }, { label: stage.name, href: `#/stage/${stage.id}` }, { label: subject.name }])}
+      ${crumb}
       <header class="page-head" style="--c:${subject.color}">
         <span class="page-emoji tinted" aria-hidden="true">${subject.emoji}</span>
         <div>
@@ -323,28 +542,47 @@
           <p class="page-sub">${esc(stage.name)}${subject.grades ? ' · ' + esc(subject.grades) : ''}</p>
         </div>
       </header>
-      ${subject.topics.some((t) => t.group) ? groupPicker(stage) : ''}
-
-      ${topics.length ? topicSections(stage, subject) : `
-        <div class="empty">
-          <span aria-hidden="true">🌱</span>
-          <p>Уроците по този предмет се подготвят. Скоро ще са тук!</p>
-        </div>`}`;
+      ${picker}${body}`;
   }
 
-  // Темите се показват по възрастови групи, ако етапът има такива (детската градина).
+  // Темите — по класове/групи; всеки етап ги показва по свой начин.
   function topicSections(stage, subject) {
-    const list = (topics) => `
-      <ol class="topic-list" style="--c:${subject.color}">${topics.map(topicItem).join('')}</ol>`;
+    const L = stage.theme;
+    const list = (topics) => {
+      if (L === 'kg') return `<div class="kg-cards" style="--c:${subject.color}">${topics.map(kgCard).join('')}</div>`;
+      if (L === 'primary') return `<ol class="nb-page" style="--c:${subject.color}">${topics.map((t, i) => nbRow(t, i)).join('')}</ol>`;
+      if (L === 'middle' || L === 'high') {
+        // Обединяваме по раздели (ядра), както в учебниците.
+        const units = [];
+        topics.forEach((t) => {
+          const key = t.core || '';
+          let u = units.find((x) => x.key === key);
+          if (!u) { u = { key, items: [] }; units.push(u); }
+          u.items.push(t);
+        });
+        let n = 0;
+        return units.map((u, ui) => L === 'high' ? `
+          <section class="book-chapter">
+            <h3><span>Глава ${ROMAN[ui] || ui + 1}</span>${esc(u.key)}</h3>
+            <ol class="book-lessons">${u.items.map((t) => bookRow(t, ++n)).join('')}</ol>
+          </section>` : `
+          <section class="app-unit" style="--c:${subject.color}">
+            <h3>${esc(u.key)} <small>${plural(u.items.length, 'урок', 'урока')}</small></h3>
+            <ul class="app-rows">${u.items.map((t) => appRow(t, ++n)).join('')}</ul>
+          </section>`).join('');
+      }
+      return `<ol class="topic-list" style="--c:${subject.color}">${topics.map(topicItem).join('')}</ol>`;
+    };
     if (!stage.groups || !subject.topics.some((t) => t.group)) return list(subject.topics);
 
     const selected = selectedGroup(stage);
     const html = Object.keys(stage.groups).filter((g) => selected === 'all' || g === selected).map((g) => {
       const topics = subject.topics.filter((t) => String(t.group) === g);
       if (!topics.length) return '';
+      // Заглавие на класа само при „Всички“ — иначе го показва превключвателят.
       return `
         <section class="topic-group">
-          <h2 class="group-title"><span class="group-badge">${g}</span>${esc(stage.groups[g])}</h2>
+          ${selected === 'all' ? `<h2 class="group-title"><span class="group-badge">${g}</span>${esc(stage.groups[g])}</h2>` : ''}
           ${list(topics)}
         </section>`;
     }).join('');
@@ -355,25 +593,41 @@
       </div>`;
   }
 
-  function topicItem(t) {
-    const lesson = t.lessonId && LESSONS[t.lessonId];
-    if (!lesson) {
-      return `
-        <li class="topic is-soon">
-          <span class="topic-num">${t.emoji || '•'}</span>
-          <span class="topic-title">${esc(t.title)}${t.core ? `<small>${esc(t.core)}</small>` : ''}</span>
-          <span class="topic-tag">Скоро</span>
-        </li>`;
-    }
-    const done = progress.get(t.lessonId);
-    return `
-      <li class="topic">
-        <a href="#/lesson/${t.lessonId}">
-          <span class="topic-num">${pics(lesson.emoji)}</span>
-          <span class="topic-title">${esc(t.title)}${t.core ? `<small>${esc(t.core)}</small>` : ''}</span>
-          <span class="topic-tag ${done ? 'is-done' : ''}">${done ? `⭐ ${done.stars}/${done.total}` : 'Започни →'}</span>
-        </a>
-      </li>`;
+  const lessonOf = (t) => t.lessonId && LESSONS[t.lessonId];
+
+  function kgCard(t) {
+    const l = lessonOf(t);
+    const done = l && progress.get(t.lessonId);
+    const inner = `
+      <span class="kg-card-pic" aria-hidden="true">${l ? pics(l.emoji) : (t.emoji || '🌱')}</span>
+      <span class="kg-card-title">${esc(t.title)}</span>
+      <span class="kg-card-stars">${done ? '⭐'.repeat(Math.max(1, Math.min(5, done.stars))) : l ? '▶ Играй' : 'Скоро'}</span>`;
+    return l ? `<a class="kg-card" href="#/lesson/${t.lessonId}">${inner}</a>` : `<span class="kg-card is-soon">${inner}</span>`;
+  }
+
+  function nbRow(t, i) {
+    const l = lessonOf(t);
+    const done = l && progress.get(t.lessonId);
+    const inner = `
+      <span class="nb-num">Урок ${i + 1}</span>
+      <span class="nb-title">${l ? `<span class="nb-pic" aria-hidden="true">${pics(l.emoji)}</span>` : ''}${esc(t.title)}</span>
+      <span class="nb-mark">${done ? `${'⭐'.repeat(Math.min(3, done.stars))}` : l ? '✏️' : 'скоро'}</span>`;
+    return `<li class="${l ? '' : 'is-soon'}">${l ? `<a href="#/lesson/${t.lessonId}">${inner}</a>` : `<span class="nb-row">${inner}</span>`}</li>`;
+  }
+
+  function appRow(t, n) {
+    const l = lessonOf(t);
+    const done = l && progress.get(t.lessonId);
+    const chip = done ? `<span class="chip chip-done">✔ ${done.stars}/${done.total}</span>` : l ? '<span class="chip chip-new">Нов</span>' : '<span class="chip">Скоро</span>';
+    const inner = `<span class="app-row-num">${n}</span><span class="app-row-title">${esc(t.title)}</span>${chip}`;
+    return `<li class="${l ? '' : 'is-soon'}">${l ? `<a href="#/lesson/${t.lessonId}">${inner}</a>` : `<span class="app-row">${inner}</span>`}</li>`;
+  }
+
+  function bookRow(t, n) {
+    const l = lessonOf(t);
+    const done = l && progress.get(t.lessonId);
+    const inner = `<span class="bk-num">§ ${n}</span><span class="bk-title">${esc(t.title)}</span><span class="toc-leader" aria-hidden="true"></span><span class="bk-mark">${done ? '✓' : l ? '→' : '—'}</span>`;
+    return `<li class="${l ? '' : 'is-soon'}">${l ? `<a href="#/lesson/${t.lessonId}">${inner}</a>` : `<span class="bk-row">${inner}</span>`}</li>`;
   }
 
   // ---------- Урок ----------
@@ -493,40 +747,92 @@
     if (!lesson || !stage || !subject) return renderNotFound();
 
     setTheme(stage.theme);
-    app.innerHTML = `
-      ${crumbs([
-        { label: 'Начало', href: '#/' },
-        { label: stage.name, href: `#/stage/${stage.id}` },
-        { label: subject.name, href: `#/stage/${stage.id}/${subject.id}` },
-        { label: lesson.title }
-      ])}
-
-      <header class="lesson-head" style="--c:${subject.color}">
-        <span class="lesson-emoji" aria-hidden="true">${pics(lesson.emoji)}</span>
-        <h1>${esc(lesson.title)}</h1>
-        <p class="page-sub">${lesson.group && stage.groups ? `${esc(stage.groups[lesson.group])}` : ''}${lesson.group && stage.groups && lesson.minutes ? ' · ' : ''}${lesson.minutes ? `⏱️ около ${lesson.minutes} минути` : ''}</p>
-      </header>
-
-      <p class="say intro">${speakBtn(lesson.intro)}<span>${esc(lesson.intro)}</span></p>
-
-      ${lesson.parentTip ? `
-        <details class="parent-tip">
+    const L = stage.theme;
+    const crumb = crumbs([
+      { label: 'Начало', href: '#/' },
+      { label: stage.name, href: `#/stage/${stage.id}` },
+      { label: subject.name, href: `#/stage/${stage.id}/${subject.id}` },
+      { label: lesson.title }
+    ]);
+    const meta = `${lesson.group && stage.groups ? `${esc(stage.groups[lesson.group])}` : ''}${lesson.group && stage.groups && lesson.minutes ? ' · ' : ''}${lesson.minutes ? `⏱️ около ${lesson.minutes} минути` : ''}`;
+    const tip = lesson.parentTip ? `
+        <details class="parent-tip" ${L === 'high' ? 'open' : ''}>
           <summary>👪 ${esc(CONFIG.parentTipLabel || 'Съвет за родителя')}</summary>
           <p>${esc(lesson.parentTip)}</p>
-        </details>` : ''}
-
-      ${lesson.sections.map((s, i) => `
-        <section class="lesson-section">
-          <h2><span class="step">${i + 1}</span>${esc(s.title)}</h2>
+        </details>` : '';
+    const stepMark = (i) => (L === 'high' ? `§ ${i + 1}` : String(i + 1));
+    const sections = lesson.sections.map((s, i) => `
+        <section class="lesson-section" id="sec-${i + 1}">
+          <h2><span class="step">${stepMark(i)}</span>${esc(s.title)}</h2>
           ${s.blocks.map(renderBlock).join('')}
-        </section>`).join('')}
-
-      ${lesson.tasks && lesson.tasks.length ? `
-        <section class="lesson-section tasks">
-          <h2><span class="step">✏️</span>Да опитаме!</h2>
+        </section>`).join('');
+    const taskTitle = { kg: 'Да поиграем!', primary: 'Задачи в тетрадката', middle: 'Провери се', high: 'Проверка на знанията' }[L] || 'Да опитаме!';
+    const tasks = lesson.tasks && lesson.tasks.length ? `
+        <section class="lesson-section tasks" id="sec-tasks">
+          <h2><span class="step">✏️</span>${taskTitle}</h2>
           <div id="task-runner"></div>
-        </section>` : ''}
-    `;
+        </section>` : '';
+    // В учебника първата буква е буквица — освен ако текстът започва с кавички.
+    const introText = L === 'high' && /^[A-Za-zА-Яа-яЁё]/.test(lesson.intro)
+      ? `<span class="dropcap">${esc(lesson.intro[0])}</span>${esc(lesson.intro.slice(1))}`
+      : esc(lesson.intro);
+    const intro = `<p class="say intro">${speakBtn(lesson.intro)}<span>${introText}</span></p>`;
+
+    if (L === 'kg') {
+      app.innerHTML = `
+        ${crumb}
+        <header class="lesson-head kg-lesson-head" style="--c:${subject.color}">
+          <span class="lesson-emoji" aria-hidden="true">${pics(lesson.emoji)}</span>
+          <h1>${esc(lesson.title)}</h1>
+        </header>
+        <div class="mascot-say"><span class="mascot" aria-hidden="true">🦉</span>${intro}</div>
+        ${tip}${sections}${tasks}`;
+    } else if (L === 'primary') {
+      app.innerHTML = `
+        ${crumb}
+        <article class="nb-sheet" style="--c:${subject.color}">
+          <header class="lesson-head nb-lesson-head">
+            <p class="nb-date">${esc(subject.name)} · ${meta}</p>
+            <h1><span class="lesson-emoji" aria-hidden="true">${pics(lesson.emoji)}</span>${esc(lesson.title)}</h1>
+          </header>
+          ${intro}${tip}${sections}${tasks}
+        </article>`;
+    } else if (L === 'middle') {
+      const toc = lesson.sections.map((s, i) => `<a href="#sec-${i + 1}" data-jump="sec-${i + 1}"><span>${i + 1}</span>${esc(s.title)}</a>`).join('')
+        + (tasks ? `<a href="#sec-tasks" data-jump="sec-tasks"><span>✓</span>${taskTitle}</a>` : '');
+      app.innerHTML = `
+        ${crumb}
+        <header class="app-lesson-head" style="--c:${subject.color}">
+          <span class="app-card-pic" aria-hidden="true">${pics(lesson.emoji)}</span>
+          <div><p class="app-kicker">${esc(subject.name)}</p><h1>${esc(lesson.title)}</h1><p class="page-sub">${meta}</p></div>
+        </header>
+        <div class="lesson-layout">
+          <nav class="lesson-toc" aria-label="Съдържание на урока"><p>В този урок</p>${toc}</nav>
+          <div class="lesson-body">${intro}${tip}${sections}${tasks}</div>
+        </div>`;
+    } else if (L === 'high') {
+      app.innerHTML = `
+        ${crumb}
+        <article class="book-article" style="--c:${subject.color}">
+          <header class="book-head">
+            <p class="book-kicker">${esc(subject.name)} · ${meta}</p>
+            <h1>${esc(lesson.title)}</h1>
+          </header>
+          <div class="book-cols">
+            <div class="book-main">${intro}${sections}${tasks}</div>
+            <aside class="book-margin">${tip}</aside>
+          </div>
+        </article>`;
+    } else {
+      app.innerHTML = `
+        ${crumb}
+        <header class="lesson-head" style="--c:${subject.color}">
+          <span class="lesson-emoji" aria-hidden="true">${pics(lesson.emoji)}</span>
+          <h1>${esc(lesson.title)}</h1>
+          <p class="page-sub">${meta}</p>
+        </header>
+        ${intro}${tip}${sections}${tasks}`;
+    }
 
     wireCountAlong();
     wireDraw();
@@ -761,6 +1067,23 @@
       el.classList.remove('is-pop');
       void el.offsetWidth;
       el.classList.add('is-pop');
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    const gb = e.target.closest('[data-group-btn]');
+    if (gb) {
+      setSelectedGroup(findStage(gb.dataset.groupBtn), gb.dataset.g);
+      route();
+      const again = app.querySelector(`[data-group-btn][data-g="${gb.dataset.g}"]`);
+      if (again) again.focus();
+      return;
+    }
+    const jump = e.target.closest('[data-jump]');
+    if (jump) {
+      e.preventDefault();
+      const el = document.getElementById(jump.dataset.jump);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 

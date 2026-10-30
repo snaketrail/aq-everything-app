@@ -23,7 +23,7 @@ window.CURRICULUM = {
         4: '4. група · 6–7 години'
       },
       subjects: [
-        { id: 'bel', name: 'Български език и литература', emoji: '🔤', color: '#ff7a59', topics: [
+        { id: 'bel', name: 'Български език и литература', emoji: '🔤', color: '#ff7a59', hours: { 1: 32, 2: 64, 3: 64, 4: 64 }, topics: [
           { group: 1, title: 'Приказка „Дядо и ряпа“', core: 'Възприемане на литературно произведение', lessonId: 'kg-bel-dyado-i-ryapa' },
           { group: 1, title: 'Моето име и моето семейство', core: 'Свързана реч', lessonId: 'kg-bel-moeto-ime' },
           { group: 1, title: 'Стихчета и римушки', core: 'Пресъздаване на литературно произведение', lessonId: 'kg-bel-stihcheta' },
@@ -38,7 +38,7 @@ window.CURRICULUM = {
           { group: 4, title: 'Първите печатни букви', core: 'Звукова култура', lessonId: 'kg-bel-parvi-bukvi' },
           { group: 4, title: 'Подготвяме ръката за писане', core: 'Звукова култура', lessonId: 'kg-bel-raka-za-pisane' }
         ] },
-        { id: 'math', name: 'Математика', emoji: '🔢', color: '#5ec8f2', topics: [
+        { id: 'math', name: 'Математика', emoji: '🔢', color: '#5ec8f2', hours: { 1: 32, 2: 32, 3: 64, 4: 64 }, topics: [
           { group: 1, title: 'Едно и много', core: 'Количествени отношения', lessonId: 'kg-math-edno-i-mnogo' },
           { group: 1, title: 'Горе, долу, отпред, отзад', core: 'Пространствени отношения', lessonId: 'kg-math-gore-dolu' },
           { group: 1, title: 'Голямо и малко, високо и ниско', core: 'Измерване', lessonId: 'kg-math-golyamo-malko' },
@@ -60,7 +60,7 @@ window.CURRICULUM = {
           { group: 4, title: 'Месеците и сезоните', core: 'Времеви отношения', lessonId: 'kg-math-mesetsi' },
           { group: 4, title: 'Лабиринти и квадратна мрежа', core: 'Пространствени отношения', lessonId: 'kg-math-labirinti' }
         ] },
-        { id: 'world', name: 'Околен свят', emoji: '🌳', color: '#7bdcb5', topics: [
+        { id: 'world', name: 'Околен свят', emoji: '🌳', color: '#7bdcb5', hours: { 1: 32, 2: 32, 3: 64, 4: 64 }, topics: [
           { group: 1, title: 'Домашни животни и техните малки', core: 'Светът на природата и неговото опазване', lessonId: 'kg-world-domashni-zhivotni' },
           { group: 1, title: 'Мием си ръцете', core: 'Социална и здравословна среда', lessonId: 'kg-world-higiena' },
           { group: 1, title: 'Аз и моето семейство', core: 'Самоутвърждаване и общуване с околните', lessonId: 'kg-world-semeystvo' },
@@ -74,25 +74,25 @@ window.CURRICULUM = {
           { group: 4, title: 'Скоро ще бъда ученичка', core: 'Социална и здравословна среда', lessonId: 'kg-world-shte-badam-uchenik' },
           { group: 4, title: 'Пазим природата чиста', core: 'Светът на природата и неговото опазване', lessonId: 'kg-world-priroda' }
         ] },
-        { id: 'art', name: 'Изобразително изкуство', emoji: '🎨', color: '#c38bff', topics: [
+        { id: 'art', name: 'Изобразително изкуство', emoji: '🎨', color: '#c38bff', hours: { 1: 64, 2: 64, 3: 64, 4: 64 }, topics: [
           { group: 1, title: 'Цветовете', core: 'Изобразителни материали и техники', lessonId: 'kg-art-cvetove' },
           { group: 2, title: 'Прави и криви линии', core: 'Изобразителни материали и техники', lessonId: 'kg-art-linii' },
           { group: 3, title: 'Апликация от изрязани форми', core: 'Изобразително творчество', lessonId: 'kg-art-aplikatsiya' },
           { group: 4, title: 'Шевици и мартеници', core: 'Художествено възприемане', lessonId: 'kg-art-shevitsi' }
         ] },
-        { id: 'music', name: 'Музика', emoji: '🎵', color: '#ffb84d', topics: [
+        { id: 'music', name: 'Музика', emoji: '🎵', color: '#ffb84d', hours: { 1: 64, 2: 64, 3: 64, 4: 64 }, topics: [
           { group: 1, title: 'Силно и тихо, високо и ниско', core: 'Елементи на музикалната изразност', lessonId: 'kg-music-silno-tiho' },
           { group: 2, title: 'Музикалните инструменти', core: 'Възприемане', lessonId: 'kg-music-instrumenti' },
           { group: 3, title: 'Марш, валс, хоро и ръченица', core: 'Възприемане', lessonId: 'kg-music-tantsi' },
           { group: 4, title: 'Певец, музикант и слушател', core: 'Възпроизвеждане', lessonId: 'kg-music-pevets' }
         ] },
-        { id: 'tech', name: 'Конструиране и технологии', emoji: '🧩', color: '#ff8fb1', topics: [
+        { id: 'tech', name: 'Конструиране и технологии', emoji: '🧩', color: '#ff8fb1', hours: { 1: 32, 2: 32, 3: 32, 4: 32 }, topics: [
           { group: 1, title: 'Късаме и лепим хартия', core: 'Обработване на материали', lessonId: 'kg-tech-kasane' },
           { group: 2, title: 'Хартия, плат и природни материали', core: 'Обработване на материали', lessonId: 'kg-tech-materiali' },
           { group: 3, title: 'Сгъваме хартия', core: 'Конструиране и моделиране', lessonId: 'kg-tech-sgavane' },
           { group: 4, title: 'Обличам се сама', core: 'Грижи и инициативност', lessonId: 'kg-tech-oblichane' }
         ] },
-        { id: 'pe', name: 'Физическа култура', emoji: '⚽', color: '#5fd068', topics: [
+        { id: 'pe', name: 'Физическа култура', emoji: '⚽', color: '#5fd068', hours: { 1: 96, 2: 96, 3: 96, 4: 96 }, topics: [
           { group: 1, title: 'Движи се като животните', core: 'Естествено-приложна двигателна дейност', lessonId: 'kg-pe-kato-zhivotnite' },
           { group: 2, title: 'Хвърляме и ловим топка', core: 'Естествено-приложна двигателна дейност', lessonId: 'kg-pe-topka' },
           { group: 3, title: 'Скачаме на въже', core: 'Естествено-приложна двигателна дейност', lessonId: 'kg-pe-vazhe' },
@@ -120,7 +120,7 @@ window.CURRICULUM = {
         4: '4. клас'
       },
       subjects: [
-        { id: 'bel', name: 'Български език и литература', emoji: '📖', color: '#e8505b', grades: '1.–4. клас', topics: [
+        { id: 'bel', name: 'Български език и литература', emoji: '📖', color: '#e8505b', grades: '1.–4. клас', hours: { 1: 224, 2: 224, 3: 176, 4: 176 }, topics: [
           { group: 1, title: 'Изречение, дума, сричка, звук', core: 'Начално ограмотяване', lessonId: 'p1-bel-izrechenie' },
           { group: 1, title: 'Гласни и съгласни звукове', core: 'Начално ограмотяване', lessonId: 'p1-bel-glasni' },
           { group: 1, title: 'Буквите А, Е, М, Н', core: 'Начално ограмотяване', lessonId: 'p1-bel-bukvi-1' },
@@ -176,7 +176,7 @@ window.CURRICULUM = {
           { group: 4, title: 'Легенди и предания', core: 'Литература', lessonId: 'p4-bel-legendi' },
           { group: 4, title: 'Пиша описание', core: 'Общуване и текст', lessonId: 'p4-bel-opisanie' }
         ] },
-        { id: 'math', name: 'Математика', emoji: '➕', color: '#3a86ff', grades: '1.–4. клас', topics: [
+        { id: 'math', name: 'Математика', emoji: '➕', color: '#3a86ff', grades: '1.–4. клас', hours: { 1: 128, 2: 128, 3: 128, 4: 128 }, topics: [
           { group: 1, title: 'Числата от 0 до 5', core: 'Числа', lessonId: 'p1-math-chisla-do-5' },
           { group: 1, title: 'Сравняване: >, < и =', core: 'Числа', lessonId: 'p1-math-sravnyavane' },
           { group: 1, title: 'Събиране и изваждане до 5', core: 'Числа', lessonId: 'p1-math-sabirane-do-5' },
@@ -240,7 +240,7 @@ window.CURRICULUM = {
           { group: 4, title: 'Куб и правоъгълен паралелепипед', core: 'Геометрични фигури', lessonId: 'p4-math-tela' },
           { group: 4, title: 'Текстови задачи', core: 'Моделиране', lessonId: 'p4-math-zadachi' }
         ] },
-        { id: 'english', name: 'Английски език', emoji: '🇬🇧', color: '#8338ec', grades: '2.–4. клас', topics: [
+        { id: 'english', name: 'Английски език', emoji: '🇬🇧', color: '#8338ec', grades: '2.–4. клас', hours: { 2: 64, 3: 96, 4: 96 }, topics: [
           { group: 2, title: 'Hello! Поздрави и представяне', core: 'Общуване', lessonId: 'p2-en-hello' },
           { group: 2, title: 'Colours — цветовете', core: 'Лексика', lessonId: 'p2-en-colours' },
           { group: 2, title: 'Numbers — числата до 20', core: 'Лексика', lessonId: 'p2-en-numbers' },
@@ -262,7 +262,7 @@ window.CURRICULUM = {
           { group: 4, title: 'Food — храна', core: 'Лексика', lessonId: 'p4-en-food' },
           { group: 4, title: 'Wild animals — дивите животни', core: 'Граматика', lessonId: 'p4-en-animals' }
         ] },
-        { id: 'world', name: 'Околен свят', emoji: '🌍', color: '#06a77d', grades: '1.–2. клас', topics: [
+        { id: 'world', name: 'Околен свят', emoji: '🌍', color: '#06a77d', grades: '1.–2. клас', hours: { 1: 32, 2: 32 }, topics: [
           { group: 1, title: 'Вече съм първокласничка', core: 'Аз и другите', lessonId: 'p1-world-uchilishte' },
           { group: 1, title: 'Дневен режим', core: 'Здраве', lessonId: 'p1-world-dneven-rezhim' },
           { group: 1, title: 'Моето семейство', core: 'Аз и другите', lessonId: 'p1-world-semeystvo' },
@@ -284,7 +284,7 @@ window.CURRICULUM = {
           { group: 2, title: 'Човешкото тяло', core: 'Здраве', lessonId: 'p2-world-tyalo' },
           { group: 2, title: 'Република България', core: 'Родината', lessonId: 'p2-world-bulgaria' }
         ] },
-        { id: 'society', name: 'Човекът и обществото', emoji: '🏛️', color: '#f4a259', grades: '3.–4. клас', topics: [
+        { id: 'society', name: 'Човекът и обществото', emoji: '🏛️', color: '#f4a259', grades: '3.–4. клас', hours: { 3: 32, 4: 64 }, topics: [
           { group: 3, title: 'Картата', core: 'География', lessonId: 'p3-cho-karta' },
           { group: 3, title: 'Моята родина България', core: 'География', lessonId: 'p3-cho-rodina' },
           { group: 3, title: 'Аз съм гражданин', core: 'Обществото', lessonId: 'p3-cho-grazhdanin' },
@@ -309,7 +309,7 @@ window.CURRICULUM = {
           { group: 4, title: 'Богатството на българската култура', core: 'Културата', lessonId: 'p4-cho-prinos' },
           { group: 4, title: 'София — столицата', core: 'Културата', lessonId: 'p4-cho-sofia' }
         ] },
-        { id: 'nature', name: 'Човекът и природата', emoji: '🌱', color: '#2a9d8f', grades: '3.–4. клас', topics: [
+        { id: 'nature', name: 'Човекът и природата', emoji: '🌱', color: '#2a9d8f', grades: '3.–4. клас', hours: { 3: 32, 4: 64 }, topics: [
           { group: 3, title: 'Тела и вещества', core: 'Неживата природа', lessonId: 'p3-chp-tela' },
           { group: 3, title: 'Твърдо, течно, газообразно', core: 'Неживата природа', lessonId: 'p3-chp-sastoyaniya' },
           { group: 3, title: 'Въздухът и водата', core: 'Неживата природа', lessonId: 'p3-chp-vazduh-voda' },
@@ -332,7 +332,7 @@ window.CURRICULUM = {
           { group: 4, title: 'Хранене и дишане', core: 'Човекът', lessonId: 'p4-chp-hranene-dishane' },
           { group: 4, title: 'Болести и как да се пазим', core: 'Човекът', lessonId: 'p4-chp-bolesti' }
         ] },
-        { id: 'cs', name: 'Компютърно моделиране', emoji: '💻', color: '#4361ee', grades: '3.–4. клас', topics: [
+        { id: 'cs', name: 'Компютърно моделиране', emoji: '💻', color: '#4361ee', grades: '3.–4. клас', hours: { 3: 32, 4: 32 }, topics: [
           { group: 3, title: 'Дигиталните устройства', core: 'Дигитални умения', lessonId: 'p3-km-ustroystva' },
           { group: 3, title: 'Безопасно в интернет', core: 'Дигитални умения', lessonId: 'p3-km-bezopasnost' },
           { group: 3, title: 'Алгоритъм', core: 'Алгоритми', lessonId: 'p3-km-algoritam' },
@@ -345,7 +345,7 @@ window.CURRICULUM = {
           { group: 4, title: 'Логически оператори', core: 'Програмиране', lessonId: 'p4-km-logicheski' },
           { group: 4, title: 'Променливи и моята игра', core: 'Програмиране', lessonId: 'p4-km-promenlivi' }
         ] },
-        { id: 'music', name: 'Музика', emoji: '🎵', color: '#ff9f1c', grades: '1.–4. клас', topics: [
+        { id: 'music', name: 'Музика', emoji: '🎵', color: '#ff9f1c', grades: '1.–4. клас', hours: { 1: 64, 2: 64, 3: 48, 4: 48 }, topics: [
           { group: 1, title: 'Звуците около нас', core: 'Възприемане', lessonId: 'p1-music-zvutsi' },
           { group: 1, title: 'Високи и ниски, кратки и дълги тонове', core: 'Елементи на музикалната изразност', lessonId: 'p1-music-tonove' },
           { group: 1, title: 'Музикалните инструменти', core: 'Възприемане', lessonId: 'p1-music-instrumenti' },
@@ -367,7 +367,7 @@ window.CURRICULUM = {
           { group: 4, title: 'Фолклорните области', core: 'Музикален фолклор', lessonId: 'p4-music-folklorni-oblasti' },
           { group: 4, title: 'Музикални жанрове', core: 'Възприемане', lessonId: 'p4-music-zhanrove' }
         ] },
-        { id: 'art', name: 'Изобразително изкуство', emoji: '🎨', color: '#b5179e', grades: '1.–4. клас', topics: [
+        { id: 'art', name: 'Изобразително изкуство', emoji: '🎨', color: '#b5179e', grades: '1.–4. клас', hours: { 1: 64, 2: 64, 3: 48, 4: 48 }, topics: [
           { group: 1, title: 'Основни и производни цветове', core: 'Изобразителни материали и техники', lessonId: 'p1-art-cvetove' },
           { group: 1, title: 'Топли и студени цветове', core: 'Изобразителни материали и техники', lessonId: 'p1-art-topli-studeni' },
           { group: 1, title: 'Портрет, пейзаж, натюрморт', core: 'Художествено възприемане', lessonId: 'p1-art-vidove' },
@@ -386,7 +386,7 @@ window.CURRICULUM = {
           { group: 4, title: 'Скулптура', core: 'Художествено възприемане', lessonId: 'p4-art-skulptura' },
           { group: 4, title: 'Плакат и дизайн', core: 'Изобразително творчество', lessonId: 'p4-art-plakat' }
         ] },
-        { id: 'tech', name: 'Технологии и предприемачество', emoji: '🛠️', color: '#6c757d', grades: '1.–4. клас', topics: [
+        { id: 'tech', name: 'Технологии и предприемачество', emoji: '🛠️', color: '#6c757d', grades: '1.–4. клас', hours: { 1: 32, 2: 32, 3: 32, 4: 32 }, topics: [
           { group: 1, title: 'Хартия, текстил, дървесина', core: 'Материали', lessonId: 'p1-tech-materiali' },
           { group: 1, title: 'Инструментите и безопасността', core: 'Техника', lessonId: 'p1-tech-instrumenti' },
           { group: 1, title: 'Колелата в помощ', core: 'Техника', lessonId: 'p1-tech-koleta' },
@@ -408,7 +408,7 @@ window.CURRICULUM = {
           { group: 4, title: 'Парите и банката', core: 'Икономика', lessonId: 'p4-tech-pari' },
           { group: 4, title: 'Моят малък бизнес', core: 'Предприемачество', lessonId: 'p4-tech-biznes' }
         ] },
-        { id: 'pe', name: 'Физическо възпитание и спорт', emoji: '🏃', color: '#38b000', grades: '1.–4. клас', topics: [
+        { id: 'pe', name: 'Физическо възпитание и спорт', emoji: '🏃', color: '#38b000', grades: '1.–4. клас', hours: { 1: 64, 2: 64, 3: 80, 4: 80 }, topics: [
           { group: 1, title: 'Строй, ходене и бягане', core: 'Лека атлетика', lessonId: 'p1-pe-stroy' },
           { group: 1, title: 'Скокове', core: 'Лека атлетика', lessonId: 'p1-pe-skokove' },
           { group: 1, title: 'Хвърляне и ловене', core: 'Спортни игри', lessonId: 'p1-pe-hvarlyane' },
@@ -444,7 +444,7 @@ window.CURRICULUM = {
         7: '7. клас'
       },
       subjects: [
-        { id: 'bel', name: 'Български език и литература', emoji: '📖', color: '#e63946', grades: '5.–7. клас', topics: [
+        { id: 'bel', name: 'Български език и литература', emoji: '📖', color: '#e63946', grades: '5.–7. клас', hours: { 5: 170, 6: 170, 7: 136 }, topics: [
           { group: 5, title: 'Звучни и беззвучни съгласни', core: 'Български език', lessonId: 'm5-bel-zvukove' },
           { group: 5, title: 'Я или Е? (ятов преход)', core: 'Български език', lessonId: 'm5-bel-yat' },
           { group: 5, title: 'Съществително име', core: 'Български език', lessonId: 'm5-bel-sashtestvitelni' },
@@ -464,7 +464,7 @@ window.CURRICULUM = {
           { group: 7, title: 'Литературни родове и жанрове', core: 'Литература', lessonId: 'm7-bel-rodove' },
           { group: 7, title: 'Христо Ботев — „На прощаване“', core: 'Литература', lessonId: 'm7-bel-botev' }
         ] },
-        { id: 'math', name: 'Математика', emoji: '📐', color: '#1d4ed8', grades: '5.–7. клас', topics: [
+        { id: 'math', name: 'Математика', emoji: '📐', color: '#1d4ed8', grades: '5.–7. клас', hours: { 5: 136, 6: 136, 7: 136 }, topics: [
           { group: 5, title: 'Признаци за делимост', core: 'Числа и алгебра', lessonId: 'm5-math-delimost' },
           { group: 5, title: 'Прости и съставни числа. НОД и НОК', core: 'Числа и алгебра', lessonId: 'm5-math-prosti' },
           { group: 5, title: 'Обикновени дроби', core: 'Числа и алгебра', lessonId: 'm5-math-drobi' },
@@ -485,7 +485,7 @@ window.CURRICULUM = {
           { group: 7, title: 'Неравенства', core: 'Числа и алгебра', lessonId: 'm7-math-neravenstva' },
           { group: 7, title: 'Еднакви триъгълници', core: 'Геометрия', lessonId: 'm7-math-ednakvi-triagalnitsi' }
         ] },
-        { id: 'lang', name: 'Чужд език', emoji: '🗣️', color: '#7c3aed', grades: '5.–7. клас', topics: [
+        { id: 'lang', name: 'Чужд език', emoji: '🗣️', color: '#7c3aed', grades: '5.–7. клас', hours: { 5: 102, 6: 102, 7: 102 }, topics: [
           { group: 5, title: 'Present Continuous — what are you doing?', core: 'Английски език', lessonId: 'm5-en-present-continuous' },
           { group: 5, title: 'Past Simple — yesterday', core: 'Английски език', lessonId: 'm5-en-past-simple' },
           { group: 5, title: 'Comparatives — bigger, the biggest', core: 'Английски език', lessonId: 'm5-en-comparatives' },
@@ -499,7 +499,7 @@ window.CURRICULUM = {
           { group: 7, title: 'The Passive — it was built…', core: 'Английски език', lessonId: 'm7-en-passive' },
           { group: 7, title: 'Relative clauses — who, which, where', core: 'Английски език', lessonId: 'm7-en-relative' }
         ] },
-        { id: 'cs', name: 'Компютърно моделиране и ИТ', emoji: '💻', color: '#0891b2', grades: '5.–7. клас', topics: [
+        { id: 'cs', name: 'Компютърно моделиране и ИТ', emoji: '💻', color: '#0891b2', grades: '5.–7. клас', hours: { 5: 34, 6: 34, 7: 34 }, topics: [
           { group: 5, title: 'Файлове и папки', core: 'Информационни технологии', lessonId: 'm5-it-faylove' },
           { group: 5, title: 'Обработка на текст', core: 'Информационни технологии', lessonId: 'm5-it-tekst' },
           { group: 5, title: 'Търсене в интернет', core: 'Информационни технологии', lessonId: 'm5-it-tarsene' },
@@ -510,7 +510,7 @@ window.CURRICULUM = {
           { group: 7, title: 'Диаграми', core: 'Информационни технологии', lessonId: 'm7-it-diagrami' },
           { group: 7, title: 'Файлови формати и компресия', core: 'Информационни технологии', lessonId: 'm7-it-formati' }
         ] },
-        { id: 'history', name: 'История и цивилизации', emoji: '🏺', color: '#b45309', grades: '5.–7. клас', topics: [
+        { id: 'history', name: 'История и цивилизации', emoji: '🏺', color: '#b45309', grades: '5.–7. клас', hours: { 5: 68, 6: 68, 7: 68 }, topics: [
           { group: 5, title: 'Праисторията', core: 'Древността', lessonId: 'm5-ist-praistoriya' },
           { group: 5, title: 'Първите цивилизации: Месопотамия и Египет', core: 'Древността', lessonId: 'm5-ist-mesopotamiya-egipet' },
           { group: 5, title: 'Древна Елада', core: 'Древността', lessonId: 'm5-ist-elada' },
@@ -529,7 +529,7 @@ window.CURRICULUM = {
           { group: 7, title: 'Българското Възраждане', core: 'Нови времена и Възраждане', lessonId: 'm7-ist-vazrazhdane' },
           { group: 7, title: 'Борбата за свобода и Освобождението', core: 'Нови времена и Възраждане', lessonId: 'm7-ist-osvobozhdenie' }
         ] },
-        { id: 'geo', name: 'География и икономика', emoji: '🗺️', color: '#15803d', grades: '5.–7. клас', topics: [
+        { id: 'geo', name: 'География и икономика', emoji: '🗺️', color: '#15803d', grades: '5.–7. клас', hours: { 5: 51, 6: 68, 7: 51 }, topics: [
           { group: 5, title: 'Земята — нашата планета', core: 'Земята', lessonId: 'm5-geo-zemya' },
           { group: 5, title: 'Картата и мащабът', core: 'Земята', lessonId: 'm5-geo-karta' },
           { group: 5, title: 'Географски координати', core: 'Земята', lessonId: 'm5-geo-koordinati' },
@@ -546,7 +546,7 @@ window.CURRICULUM = {
           { group: 7, title: 'България — климат и води', core: 'Европа и България', lessonId: 'm7-geo-balgariya-klimat' },
           { group: 7, title: 'България — население и стопанство', core: 'Европа и България', lessonId: 'm7-geo-balgariya-naselenie' }
         ] },
-        { id: 'nature', name: 'Човекът и природата', emoji: '🌿', color: '#0f766e', grades: '5.–6. клас', topics: [
+        { id: 'nature', name: 'Човекът и природата', emoji: '🌿', color: '#0f766e', grades: '5.–6. клас', hours: { 5: 68, 6: 102 }, topics: [
           { group: 5, title: 'Клетката', core: 'Живата природа', lessonId: 'm5-chp-kletka' },
           { group: 5, title: 'Многообразие на организмите', core: 'Живата природа', lessonId: 'm5-chp-tsarstva' },
           { group: 5, title: 'Чисти вещества и смеси', core: 'Неживата природа', lessonId: 'm5-chp-smesi' },
@@ -558,40 +558,40 @@ window.CURRICULUM = {
           { group: 6, title: 'Електрически ток', core: 'Неживата природа', lessonId: 'm6-chp-elektrichestvo' },
           { group: 6, title: 'Топлина и топлопредаване', core: 'Неживата природа', lessonId: 'm6-chp-toplina' }
         ] },
-        { id: 'bio', name: 'Биология и здравно образование', emoji: '🧬', color: '#16a34a', grades: '7. клас', topics: [
+        { id: 'bio', name: 'Биология и здравно образование', emoji: '🧬', color: '#16a34a', grades: '7. клас', hours: { 7: 68 }, topics: [
           { group: 7, title: 'Класификация на организмите', core: 'Многообразие на организмите', lessonId: 'm7-bio-klasifikatsiya' },
           { group: 7, title: 'Вируси и бактерии', core: 'Многообразие на организмите', lessonId: 'm7-bio-virusi-bakterii' },
           { group: 7, title: 'Многообразие на растенията', core: 'Многообразие на организмите', lessonId: 'm7-bio-rasteniya' },
           { group: 7, title: 'Многообразие на животните', core: 'Многообразие на организмите', lessonId: 'm7-bio-zhivotni' }
         ] },
-        { id: 'chem', name: 'Химия и опазване на околната среда', emoji: '⚗️', color: '#c026d3', grades: '7. клас', topics: [
+        { id: 'chem', name: 'Химия и опазване на околната среда', emoji: '⚗️', color: '#c026d3', grades: '7. клас', hours: { 7: 51 }, topics: [
           { group: 7, title: 'Вещества и явления', core: 'Вещества и реакции', lessonId: 'm7-chem-veshtestva' },
           { group: 7, title: 'Строеж на атома', core: 'Вещества и реакции', lessonId: 'm7-chem-atom' },
           { group: 7, title: 'Химични елементи и Периодичната система', core: 'Вещества и реакции', lessonId: 'm7-chem-elementi' },
           { group: 7, title: 'Химични реакции и околната среда', core: 'Вещества и реакции', lessonId: 'm7-chem-reaktsii' }
         ] },
-        { id: 'phys', name: 'Физика и астрономия', emoji: '🪐', color: '#4338ca', grades: '7. клас', topics: [
+        { id: 'phys', name: 'Физика и астрономия', emoji: '🪐', color: '#4338ca', grades: '7. клас', hours: { 7: 68 }, topics: [
           { group: 7, title: 'Механично движение', core: 'Механика', lessonId: 'm7-phys-dvizhenie' },
           { group: 7, title: 'Сила, маса и тегло', core: 'Механика', lessonId: 'm7-phys-sila' },
           { group: 7, title: 'Налягане', core: 'Механика', lessonId: 'm7-phys-nalyagane' },
           { group: 7, title: 'Закон на Архимед', core: 'Механика', lessonId: 'm7-phys-arhimed' }
         ] },
-        { id: 'music', name: 'Музика', emoji: '🎼', color: '#ea580c', grades: '5.–7. клас', topics: [
+        { id: 'music', name: 'Музика', emoji: '🎼', color: '#ea580c', grades: '5.–7. клас', hours: { 5: 51, 6: 34, 7: 34 }, topics: [
           { group: 5, title: 'Неравноделните размери', core: 'Възприемане', lessonId: 'm5-music-razmeri' },
           { group: 6, title: 'Барок и класицизъм', core: 'Възприемане', lessonId: 'm6-music-barok-klasitsizam' },
           { group: 7, title: 'Музиката на XX век', core: 'Възприемане', lessonId: 'm7-music-xx-vek' }
         ] },
-        { id: 'art', name: 'Изобразително изкуство', emoji: '🖌️', color: '#db2777', grades: '5.–7. клас', topics: [
+        { id: 'art', name: 'Изобразително изкуство', emoji: '🖌️', color: '#db2777', grades: '5.–7. клас', hours: { 5: 51, 6: 34, 7: 34 }, topics: [
           { group: 5, title: 'Изкуството на Древността', core: 'История на изкуството', lessonId: 'm5-art-drevnost' },
           { group: 6, title: 'Изкуството на Средновековието', core: 'История на изкуството', lessonId: 'm6-art-srednovekovie' },
           { group: 7, title: 'Изкуството на Ренесанса', core: 'История на изкуството', lessonId: 'm7-art-renesans' }
         ] },
-        { id: 'tech', name: 'Технологии и предприемачество', emoji: '🛠️', color: '#475569', grades: '5.–7. клас', topics: [
+        { id: 'tech', name: 'Технологии и предприемачество', emoji: '🛠️', color: '#475569', grades: '5.–7. клас', hours: { 5: 34, 6: 34, 7: 34 }, topics: [
           { group: 5, title: 'Технически чертеж', core: 'Технологии и предприемачество', lessonId: 'm5-tech-chertezh' },
           { group: 6, title: 'Енергийна ефективност у дома', core: 'Технологии и предприемачество', lessonId: 'm6-tech-energiya' },
           { group: 7, title: 'Бизнес идея и маркетинг', core: 'Технологии и предприемачество', lessonId: 'm7-tech-marketing' }
         ] },
-        { id: 'pe', name: 'Физическо възпитание и спорт', emoji: '🏐', color: '#65a30d', grades: '5.–7. клас', topics: [
+        { id: 'pe', name: 'Физическо възпитание и спорт', emoji: '🏐', color: '#65a30d', grades: '5.–7. клас', hours: { 5: 85, 6: 85, 7: 85 }, topics: [
           { group: 5, title: 'Баскетбол', core: 'Спорт и здраве', lessonId: 'm5-pe-basketbol' },
           { group: 6, title: 'Футбол — правила на играта', core: 'Спорт и здраве', lessonId: 'm6-pe-futbol' },
           { group: 7, title: 'Здравословна тренировка', core: 'Спорт и здраве', lessonId: 'm7-pe-trenirovka' }
@@ -619,7 +619,7 @@ window.CURRICULUM = {
         12: '12. клас'
       },
       subjects: [
-        { id: 'bel', name: 'Български език и литература', emoji: '📚', color: '#b91c1c', grades: '8.–12. клас', topics: [
+        { id: 'bel', name: 'Български език и литература', emoji: '📚', color: '#b91c1c', grades: '8.–12. клас', hours: { 8: 108, 9: 108, 10: 108, 11: 108, 12: 93 }, topics: [
           { group: 8, title: 'Омир — „Илиада“', core: 'Литература', lessonId: 'h8-bel-iliada' },
           { group: 8, title: 'Библията — притчата за блудния син', core: 'Литература', lessonId: 'h8-bel-bluden-sin' },
           { group: 8, title: 'Шекспир — „Ромео и Жулиета“', core: 'Литература', lessonId: 'h8-bel-romeo' },
@@ -640,7 +640,7 @@ window.CURRICULUM = {
           { group: 12, title: 'Йордан Радичков — „Ний, врабчетата“', core: 'Литература', lessonId: 'h12-bel-radichkov' },
           { group: 12, title: 'Матурата по БЕЛ', core: 'Писане и матура', lessonId: 'h12-bel-dzi' }
         ] },
-        { id: 'math', name: 'Математика', emoji: '∑', color: '#1e40af', grades: '8.–12. клас', topics: [
+        { id: 'math', name: 'Математика', emoji: '∑', color: '#1e40af', grades: '8.–12. клас', hours: { 8: 108, 9: 108, 10: 108, 11: 72, 12: 62 }, topics: [
           { group: 8, title: 'Квадратен корен', core: 'Алгебра и функции', lessonId: 'h8-math-koreni' },
           { group: 8, title: 'Квадратни уравнения', core: 'Алгебра и функции', lessonId: 'h8-math-kv-uravneniya' },
           { group: 8, title: 'Питагорова теорема', core: 'Геометрия', lessonId: 'h8-math-pitagor' },
@@ -662,7 +662,7 @@ window.CURRICULUM = {
           { group: 12, title: 'Вероятност на сложни събития', core: 'Вероятности и статистика', lessonId: 'h12-math-sabitiya' },
           { group: 12, title: 'Матурата по математика', core: 'Матура', lessonId: 'h12-math-matura' }
         ] },
-        { id: 'lang', name: 'Чужди езици', emoji: '🌐', color: '#6d28d9', grades: '8.–12. клас', topics: [
+        { id: 'lang', name: 'Чужди езици', emoji: '🌐', color: '#6d28d9', grades: '8.–12. клас', hours: { 8: 72, 9: 72, 10: 72, 11: 72, 12: 62 }, topics: [
           { group: 8, title: 'Second Conditional — if I had a million…', core: 'Граматика и лексика', lessonId: 'h8-en-second-conditional' },
           { group: 8, title: 'Reported Speech — she said that…', core: 'Граматика и лексика', lessonId: 'h8-en-reported' },
           { group: 9, title: 'Modals of deduction — must, might, can’t', core: 'Граматика и лексика', lessonId: 'h9-en-deduction' },
@@ -674,7 +674,7 @@ window.CURRICULUM = {
           { group: 12, title: 'Collocations: make or do?', core: 'Граматика и лексика', lessonId: 'h12-en-collocations' },
           { group: 12, title: 'Exam strategies: reading and listening', core: 'Писане и изпити', lessonId: 'h12-en-exam' }
         ] },
-        { id: 'inf', name: 'Информатика', emoji: '⌨️', color: '#0e7490', grades: '8.–10. клас', topics: [
+        { id: 'inf', name: 'Информатика', emoji: '⌨️', color: '#0e7490', grades: '8.–10. клас', hours: { 8: 36, 9: 36, 10: 36 }, topics: [
           { group: 8, title: 'Python: променливи, вход и изход', core: 'Програмиране на Python', lessonId: 'h8-inf-promenlivi' },
           { group: 8, title: 'Python: условия', core: 'Програмиране на Python', lessonId: 'h8-inf-usloviya' },
           { group: 8, title: 'Python: цикли', core: 'Програмиране на Python', lessonId: 'h8-inf-tsikli' },
@@ -682,12 +682,12 @@ window.CURRICULUM = {
           { group: 9, title: 'Python: функции', core: 'Програмиране на Python', lessonId: 'h9-inf-funktsii' },
           { group: 10, title: 'Търсене и сортиране', core: 'Програмиране на Python', lessonId: 'h10-inf-tarsene-sortirane' }
         ] },
-        { id: 'it', name: 'Информационни технологии', emoji: '🖥️', color: '#0369a1', grades: '8.–10. клас', topics: [
+        { id: 'it', name: 'Информационни технологии', emoji: '🖥️', color: '#0369a1', grades: '8.–10. клас', hours: { 8: 36, 9: 36, 10: 36 }, topics: [
           { group: 8, title: 'Киберсигурност', core: 'Дигитални технологии', lessonId: 'h8-it-kibersigurnost' },
           { group: 9, title: 'Бази от данни', core: 'Дигитални технологии', lessonId: 'h9-it-bazi-danni' },
           { group: 10, title: 'Уеб страница с HTML и CSS', core: 'Дигитални технологии', lessonId: 'h10-it-html' }
         ] },
-        { id: 'history', name: 'История и цивилизации', emoji: '🏛️', color: '#92400e', grades: '8.–12. клас', topics: [
+        { id: 'history', name: 'История и цивилизации', emoji: '🏛️', color: '#92400e', grades: '8.–12. клас', hours: { 8: 72, 9: 72, 10: 72, 11: 36 }, topics: [
           { group: 8, title: 'Богомилството', core: 'Световна история', lessonId: 'h8-ist-bogomilstvo' },
           { group: 8, title: 'Възходът на Османската империя', core: 'Световна история', lessonId: 'h8-ist-osmanska-imperiya' },
           { group: 9, title: 'Просвещението', core: 'Световна история', lessonId: 'h9-ist-prosveshtenie' },
@@ -698,7 +698,7 @@ window.CURRICULUM = {
           { group: 10, title: 'Демократичният преход', core: 'България през XX век', lessonId: 'h10-ist-demokratsiya' },
           { group: 11, title: 'Студената война', core: 'България през XX век', lessonId: 'h11-ist-studena-voyna' }
         ] },
-        { id: 'geo', name: 'География и икономика', emoji: '🌍', color: '#166534', grades: '8.–12. клас', topics: [
+        { id: 'geo', name: 'География и икономика', emoji: '🌍', color: '#166534', grades: '8.–12. клас', hours: { 8: 72, 9: 72, 10: 72 }, topics: [
           { group: 8, title: 'Населението на света', core: 'Светът', lessonId: 'h8-geo-naselenie' },
           { group: 8, title: 'Климатичните промени', core: 'Светът', lessonId: 'h8-geo-klimat' },
           { group: 9, title: 'Световното стопанство и глобализацията', core: 'Светът', lessonId: 'h9-geo-stopanstvo' },
@@ -706,27 +706,27 @@ window.CURRICULUM = {
           { group: 10, title: 'Районите на България', core: 'География на България', lessonId: 'h10-geo-rayoni' },
           { group: 10, title: 'Икономиката на България', core: 'География на България', lessonId: 'h10-geo-ikonomika-bg' }
         ] },
-        { id: 'phil', name: 'Философия', emoji: '🤔', color: '#57534e', grades: '8.–10. клас', topics: [
+        { id: 'phil', name: 'Философия', emoji: '🤔', color: '#57534e', grades: '8.–10. клас', hours: { 8: 72, 9: 72, 10: 72 }, topics: [
           { group: 8, title: 'Какво е философия', core: 'Философия и психология', lessonId: 'h8-phil-filosofiya' },
           { group: 8, title: 'Психология: как мислим и чувстваме', core: 'Философия и психология', lessonId: 'h8-phil-psihologiya' },
           { group: 9, title: 'Логика', core: 'Логика', lessonId: 'h9-phil-logika' },
           { group: 10, title: 'Етика: какво е добро', core: 'Етика', lessonId: 'h10-phil-etika' }
         ] },
-        { id: 'bio', name: 'Биология и здравно образование', emoji: '🧬', color: '#15803d', grades: '8.–12. клас', topics: [
+        { id: 'bio', name: 'Биология и здравно образование', emoji: '🧬', color: '#15803d', grades: '8.–12. клас', hours: { 8: 54, 9: 72, 10: 72 }, topics: [
           { group: 8, title: 'Клетката отблизо', core: 'Биология', lessonId: 'h8-bio-kletka' },
           { group: 9, title: 'Нервната система', core: 'Биология', lessonId: 'h9-bio-nervna-sistema' },
           { group: 9, title: 'Кръвоносна система', core: 'Биология', lessonId: 'h9-bio-krav' },
           { group: 10, title: 'Генетика', core: 'Биология', lessonId: 'h10-bio-genetika' },
           { group: 10, title: 'Еволюция', core: 'Биология', lessonId: 'h10-bio-evolyutsiya' }
         ] },
-        { id: 'chem', name: 'Химия и опазване на околната среда', emoji: '🧪', color: '#a21caf', grades: '8.–12. клас', topics: [
+        { id: 'chem', name: 'Химия и опазване на околната среда', emoji: '🧪', color: '#a21caf', grades: '8.–12. клас', hours: { 8: 54, 9: 72, 10: 72 }, topics: [
           { group: 8, title: 'Периодичен закон и химична връзка', core: 'Химия', lessonId: 'h8-chem-vrazka' },
           { group: 8, title: 'Киселини, основи, соли и pH', core: 'Химия', lessonId: 'h8-chem-ph' },
           { group: 9, title: 'Мол и моларна маса', core: 'Химия', lessonId: 'h9-chem-mol' },
           { group: 10, title: 'Органична химия: въглеводороди', core: 'Химия', lessonId: 'h10-chem-organichna' },
           { group: 10, title: 'Полимери и пластмаси', core: 'Химия', lessonId: 'h10-chem-polimeri' }
         ] },
-        { id: 'phys', name: 'Физика и астрономия', emoji: '⚛️', color: '#3730a3', grades: '8.–12. клас', topics: [
+        { id: 'phys', name: 'Физика и астрономия', emoji: '⚛️', color: '#3730a3', grades: '8.–12. клас', hours: { 8: 54, 9: 72, 10: 72 }, topics: [
           { group: 8, title: 'Закон на Ом', core: 'Физика и астрономия', lessonId: 'h8-phys-om' },
           { group: 8, title: 'Електрическа мощност и енергия', core: 'Физика и астрономия', lessonId: 'h8-phys-moshtnost' },
           { group: 9, title: 'Вълни и звук', core: 'Физика и астрономия', lessonId: 'h9-phys-valni' },
@@ -734,20 +734,20 @@ window.CURRICULUM = {
           { group: 10, title: 'Атомно ядро и радиоактивност', core: 'Физика и астрономия', lessonId: 'h10-phys-yadro' },
           { group: 10, title: 'Вселената', core: 'Физика и астрономия', lessonId: 'h10-phys-vselena' }
         ] },
-        { id: 'civic', name: 'Гражданско образование', emoji: '🗳️', color: '#be123c', grades: '11.–12. клас', topics: [
+        { id: 'civic', name: 'Гражданско образование', emoji: '🗳️', color: '#be123c', grades: '11.–12. клас', hours: { 11: 36, 12: 62 }, topics: [
           { group: 11, title: 'Демокрация и права на човека', core: 'Гражданство', lessonId: 'h11-civic-prava' },
           { group: 11, title: 'Медийна грамотност', core: 'Гражданство', lessonId: 'h11-civic-medii' },
           { group: 12, title: 'Финансова грамотност', core: 'Гражданство', lessonId: 'h12-civic-finansi' }
         ] },
-        { id: 'music', name: 'Музика', emoji: '🎼', color: '#c2410c', grades: '8.–10. клас', topics: [
+        { id: 'music', name: 'Музика', emoji: '🎼', color: '#c2410c', grades: '8.–10. клас', hours: { 8: 36, 9: 36, 10: 36 }, topics: [
           { group: 8, title: 'Романтизмът в музиката', core: 'Музикална история', lessonId: 'h8-music-romantizam' },
           { group: 9, title: 'Българските композитори', core: 'Музикална история', lessonId: 'h9-music-bulgarski' }
         ] },
-        { id: 'art', name: 'Изобразително изкуство', emoji: '🖼️', color: '#9d174d', grades: '8.–10. клас', topics: [
+        { id: 'art', name: 'Изобразително изкуство', emoji: '🖼️', color: '#9d174d', grades: '8.–10. клас', hours: { 8: 36, 9: 36, 10: 36 }, topics: [
           { group: 9, title: 'Модерното изкуство', core: 'История на изкуството', lessonId: 'h9-art-modernizam' },
           { group: 10, title: 'Българските художници', core: 'История на изкуството', lessonId: 'h10-art-bulgarski' }
         ] },
-        { id: 'pe', name: 'Физическо възпитание и спорт', emoji: '🏅', color: '#4d7c0f', grades: '8.–12. клас', topics: [
+        { id: 'pe', name: 'Физическо възпитание и спорт', emoji: '🏅', color: '#4d7c0f', grades: '8.–12. клас', hours: { 8: 108, 9: 108, 10: 108, 11: 108, 12: 93 }, topics: [
           { group: 8, title: 'Първа помощ', core: 'Здраве и спорт', lessonId: 'h8-pe-parva-pomosht' },
           { group: 11, title: 'Моят тренировъчен план', core: 'Здраве и спорт', lessonId: 'h11-pe-trenirovachen-plan' }
         ] }
