@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+  <!-- Шевица: геометрична розетка в червено и черно, по мотиви от българските народни шевици -->
+  <rect width="36" height="36" rx="3" fill="#FFF8EC"/>
+  <g fill="#C1272D">
+    <path d="M18 3l4 4-4 4-4-4zM18 25l4 4-4 4-4-4zM3 18l4-4 4 4-4 4zM25 18l4-4 4 4-4 4z"/>
+    <path d="M18 11l7 7-7 7-7-7z"/>
+  </g>
+  <g fill="#231F20">
+    <path d="M18 15l3 3-3 3-3-3z"/>
+    <path d="M9 9h3v3H9zM24 9h3v3h-3zM9 24h3v3H9zM24 24h3v3h-3z"/>
+  </g>
+  <g fill="#C1272D"><path d="M6 6h2v2H6zM28 6h2v2h-2zM6 28h2v2H6zM28 28h2v2h-2z"/></g>
+</svg>

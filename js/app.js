@@ -49,18 +49,22 @@
     speechSynthesis.addEventListener('voiceschanged', pickVoice);
   }
 
-  function speak(text) {
+  // voice: { rate, volume, pitch } – по желание (напр. за „говори тихо/бързо“).
+  function speak(text, voice = {}) {
     if (!canSpeak) return;
     const u = new SpeechSynthesisUtterance(text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, ''));
     u.lang = 'bg-BG';
-    u.rate = 0.9;
+    u.rate = voice.rate || 0.9;
+    if (voice.volume != null) u.volume = voice.volume;
+    if (voice.pitch != null) u.pitch = voice.pitch;
     if (bgVoice) u.voice = bgVoice;
     speechSynthesis.cancel();
     speechSynthesis.speak(u);
   }
 
   // ---------- Звуци (Web Audio) ----------
-  // Мелодия = списък от ноти { f: честота в Hz (0 = пауза), d: продължителност в s, v: сила 0–1 }.
+  // Мелодия = списък от ноти { f: честота в Hz (0 = пауза) или масив от честоти (акорд),
+  // d: продължителност в s, v: сила 0–1, type: форма на вълната }.
 
   let audio = null;
   function playNotes(notes) {
@@ -70,19 +74,20 @@
     if (audio.state === 'suspended') audio.resume();
     let t = audio.currentTime + 0.05;
     notes.forEach((n) => {
-      if (n.f) {
+      const freqs = [].concat(n.f || []);
+      freqs.forEach((f) => {
         const osc = audio.createOscillator();
         const gain = audio.createGain();
         osc.type = n.type || 'triangle';
-        osc.frequency.value = n.f;
-        const vol = 0.35 * (n.v == null ? 0.7 : n.v);
+        osc.frequency.value = f;
+        const vol = 0.35 * (n.v == null ? 0.7 : n.v) / Math.sqrt(freqs.length);
         gain.gain.setValueAtTime(0.0001, t);
         gain.gain.exponentialRampToValueAtTime(vol, t + 0.02);
         gain.gain.exponentialRampToValueAtTime(0.0001, t + n.d);
         osc.connect(gain).connect(audio.destination);
         osc.start(t);
         osc.stop(t + n.d + 0.02);
-      }
+      });
       t += n.d;
     });
   }
@@ -128,9 +133,32 @@
   //   { sequence: ['1', '2', '?'] }            – редица от квадратчета
   //   { pic: '☀️' }                            – една голяма картинка (може и няколко емоджита)
   //   { scene: [{ pic, x, y, size }] }         – сцена: x, y в % от кутията, size = мащаб (1 = нормално)
+  //   { rows: [{ emoji, count }, …] }          – редове един под друг, подравнени (за сравняване)
+  //   { bars: [{ len, color }, …] }            – ленти с дължина len (0–100)
+  //   { grid: { cols, rows, items: [{ pic, c, r }] } } – квадратна мрежа (c, r започват от 1)
   function picture(p, extraClass = '') {
     if (!p) return '';
     if (typeof p === 'string') p = { pic: p };
+    if (p.rows) {
+      return `<div class="pic-rows ${extraClass}">${p.rows.map((r) =>
+        `<div class="pic-row">${Array.from({ length: r.count }, () => `<span>${pics(r.emoji)}</span>`).join('')}</div>`).join('')}</div>`;
+    }
+    if (p.bars) {
+      return `<div class="pic-bars ${extraClass}">${p.bars.map((b) =>
+        `<span class="bar" style="width:${b.len}%;--bar:${b.color || '#5ec8f2'}"></span>`).join('')}</div>`;
+    }
+    if (p.grid) {
+      const g = p.grid;
+      const at = (c, r) => g.items.find((it) => it.c === c && it.r === r);
+      let cells = '';
+      for (let r = 1; r <= g.rows; r++) {
+        for (let c = 1; c <= g.cols; c++) {
+          const it = at(c, r);
+          cells += `<span class="grid-cell${it && it.mark ? ' is-marked' : ''}">${it && it.pic ? pics(it.pic) : ''}</span>`;
+        }
+      }
+      return `<div class="pic-grid ${extraClass}" style="--cols:${g.cols}">${cells}</div>`;
+    }
     if (p.pic) {
       return `<div class="pic pic-big ${extraClass}">${pics(p.pic)}</div>`;
     }
@@ -140,7 +168,7 @@
     }
     if (p.sequence) {
       return `<div class="pic pic-seq ${extraClass}">${p.sequence.map((x) =>
-        `<span class="seq-item${x === '?' ? ' is-mystery' : ''}">${pics(x)}</span>`).join('')}</div>`;
+        `<span class="seq-item${x === '?' ? ' is-mystery' : ''}${x.length > 2 && !/\p{Extended_Pictographic}/u.test(x) ? ' is-word' : ''}">${pics(x)}</span>`).join('')}</div>`;
     }
     const items = Array.from({ length: p.count }, (_, i) =>
       `<span class="pic-item" style="--i:${i}">${p.emoji}</span>`).join('');
@@ -339,7 +367,7 @@
       case 'cards':
         // Картички с картинка и надпис; натискането чете надписа (или `say`).
         return `<div class="pic-cards">${b.items.map((it) => `
-          <button class="pic-card" type="button" data-say="${esc(it.say || it.label)}" ${it.color ? `style="--card:${it.color}"` : ''}>
+          <button class="pic-card" type="button" data-say="${esc(it.say || it.label)}" ${it.voice ? `data-voice="${esc(JSON.stringify(it.voice))}"` : ''} ${it.color ? `style="--card:${it.color}"` : ''}>
             <span class="pc-pic">${pics(it.pic)}</span>
             <span class="pc-label">${esc(it.label)}</span>
             ${it.sub ? `<span class="pc-sub">${esc(it.sub)}</span>` : ''}
@@ -361,6 +389,27 @@
             <span class="pc-label">${esc(it.label)}</span>
             <span class="pc-sub">▶ Чуй</span>
           </button>`).join('')}</div>`;
+
+      case 'draw':
+        // Табло за рисуване с пръст/мишка. Координати 0–100 × 0–height.
+        // guides: пунктирни SVG пътища за следване; walls: плътни линии (лабиринт);
+        // marks: картинки върху таблото [{ pic, x, y }].
+        return `
+          <div class="draw" data-h="${b.height || 60}">
+            <div class="draw-board" style="aspect-ratio:100/${b.height || 60}">
+              <svg class="draw-guides" viewBox="0 0 100 ${b.height || 60}" preserveAspectRatio="none" aria-hidden="true">
+                ${(b.guides || []).map((d) => `<path d="${esc(d)}"/>`).join('')}
+                ${(b.walls || []).map((d) => `<path class="wall" d="${esc(d)}"/>`).join('')}
+              </svg>
+              ${(b.marks || []).map((m) => `<span class="draw-mark" style="left:${m.x}%;top:${m.y / (b.height || 60) * 100}%">${pics(m.pic)}</span>`).join('')}
+              <canvas aria-label="Табло за рисуване"></canvas>
+            </div>
+            <div class="draw-tools">
+              ${['#e63946', '#3a86ff', '#2a9d8f', '#ffb703', '#3d2c1e'].map((c, i) =>
+                `<button type="button" class="draw-color${i === 0 ? ' is-active' : ''}" style="--dc:${c}" data-color="${c}" aria-label="Цвят"></button>`).join('')}
+              <button type="button" class="btn btn-ghost draw-clear">↺ Изчисти</button>
+            </div>
+          </div>`;
 
       case 'picture':
         return `${picture(b.picture)}${b.caption ? `<p class="caption">${esc(b.caption)}</p>` : ''}`;
@@ -416,6 +465,7 @@
     `;
 
     wireCountAlong();
+    wireDraw();
     if (lesson.tasks && lesson.tasks.length) startTasks(id, lesson, stage, subject);
   }
 
@@ -447,6 +497,63 @@
         status.textContent = 'Докосни първото 👆';
         status.classList.remove('is-done');
       });
+    });
+  }
+
+  function wireDraw() {
+    app.querySelectorAll('.draw').forEach((box) => {
+      const canvas = box.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+      let color = '#e63946';
+      let drawing = false;
+      let last = null;
+
+      const fit = () => {
+        const r = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.round(r.width * dpr);
+        canvas.height = Math.round(r.height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.lineWidth = Math.max(6, r.width / 60);
+      };
+      fit();
+      new ResizeObserver(fit).observe(canvas);
+
+      const pos = (e) => {
+        const r = canvas.getBoundingClientRect();
+        return { x: e.clientX - r.left, y: e.clientY - r.top };
+      };
+      canvas.addEventListener('pointerdown', (e) => {
+        drawing = true;
+        last = pos(e);
+        canvas.setPointerCapture(e.pointerId);
+        ctx.strokeStyle = color;
+        ctx.beginPath();
+        ctx.arc(last.x, last.y, ctx.lineWidth / 2, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+      });
+      canvas.addEventListener('pointermove', (e) => {
+        if (!drawing) return;
+        const p = pos(e);
+        ctx.strokeStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(last.x, last.y);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+        last = p;
+      });
+      const stop = () => { drawing = false; };
+      canvas.addEventListener('pointerup', stop);
+      canvas.addEventListener('pointercancel', stop);
+
+      box.querySelectorAll('.draw-color').forEach((btn) => btn.addEventListener('click', () => {
+        color = btn.dataset.color;
+        box.querySelectorAll('.draw-color').forEach((b) => b.classList.toggle('is-active', b === btn));
+      }));
+      box.querySelector('.draw-clear').addEventListener('click', () => ctx.clearRect(0, 0, canvas.width, canvas.height));
     });
   }
 
@@ -584,7 +691,7 @@
     }
     const el = e.target.closest('[data-say]');
     if (!el) return;
-    speak(el.dataset.say);
+    speak(el.dataset.say, el.dataset.voice ? JSON.parse(el.dataset.voice) : {});
     if (el.classList.contains('number-card') || el.classList.contains('pic-card')) {
       el.classList.remove('is-pop');
       void el.offsetWidth;

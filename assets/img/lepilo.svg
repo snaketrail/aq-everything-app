@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+  <!-- Сухо лепило (стик) -->
+  <rect x="11" y="4" width="14" height="8" rx="2" fill="#FFAC33"/>
+  <rect x="10" y="12" width="16" height="21" rx="3" fill="#55ACEE"/>
+  <rect x="13" y="17" width="10" height="9" rx="1.5" fill="#fff"/>
+  <path d="M15 21.5h6" stroke="#55ACEE" stroke-width="2" stroke-linecap="round"/>
+</svg>
