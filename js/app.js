@@ -398,7 +398,7 @@
 
       ${lesson.parentTip ? `
         <details class="parent-tip">
-          <summary>👪 Съвет за родителя</summary>
+          <summary>👪 ${esc(CONFIG.parentTipLabel || 'Съвет за родителя')}</summary>
           <p>${esc(lesson.parentTip)}</p>
         </details>` : ''}
 
