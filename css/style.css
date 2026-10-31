@@ -1508,3 +1508,9 @@ body[data-theme="high"] .tasks .option::before { content: counter(opt, upper-alp
   .nb-sheet .pc-label, .nb-sheet .pc-sub { overflow-wrap: anywhere; }
 }
 .app-lesson-head > div, .app-subject-head > div { min-width: 0; overflow-wrap: anywhere; }
+
+/* Дълги редици за сравняване (до 10 картинки) да се събират на телефон. */
+@media (max-width: 520px) {
+  .pic-rows { font-size: min(2.6rem, 6vw); }
+  .pic-row { gap: 4px; }
+}
