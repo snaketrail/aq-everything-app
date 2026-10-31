@@ -104,6 +104,7 @@ window.LESSONS['p1-bel-bukva-a'] = {
 | `minutes` | no | rough length shown at the top |
 | `parentTip` | no | shown as "Съвет за брат ми и/или Деси" |
 | `after` | no | id of the lesson this one comes after |
+| `before` | no | id of the lesson this one comes before (for adding at the start) |
 | `core` | no | unit or topic group name |
 
 ## Blocks (what goes inside `blocks: [ … ]`)

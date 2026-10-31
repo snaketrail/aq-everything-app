@@ -7,14 +7,16 @@
   const app = document.getElementById('app');
 
   // Нов урок, към който никоя тема в curriculum.js не сочи, се показва сам
-  // в своя предмет: след темата с урок `after`, ако е зададен, иначе най-отзад.
+  // в своя предмет: преди урока `before` или след урока `after`, ако са зададени, иначе най-отзад.
   Object.entries(LESSONS).forEach(([id, l]) => {
     const sub = (STAGES.find((s) => s.id === l.stage) || { subjects: [] }).subjects.find((s) => s.id === l.subject);
     if (!sub) { console.warn('Урок ' + id + ': няма предмет ' + l.stage + '/' + l.subject); return; }
     if (sub.topics.some((t) => t.lessonId === id)) return;
     const topic = { group: l.group, title: l.title, core: l.core || 'Още уроци', lessonId: id };
+    const before = l.before ? sub.topics.findIndex((t) => t.lessonId === l.before) : -1;
     const at = l.after ? sub.topics.findIndex((t) => t.lessonId === l.after) : -1;
-    if (at >= 0) sub.topics.splice(at + 1 + sub.topics.slice(at + 1).filter((t) => t.after === l.after).length, 0, Object.assign(topic, { after: l.after }));
+    if (before >= 0) sub.topics.splice(before, 0, topic);
+    else if (at >= 0) sub.topics.splice(at + 1 + sub.topics.slice(at + 1).filter((t) => t.after === l.after).length, 0, Object.assign(topic, { after: l.after }));
     else sub.topics.push(topic);
   });
 

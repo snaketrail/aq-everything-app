@@ -77,6 +77,7 @@
       if (stage.groups && Object.keys(stage.groups).length && !(l.group in stage.groups)) err(id, 'group ' + l.group + ' не съществува. Може: ' + Object.keys(stage.groups).join(', ') + '.');
       else if (sub.hours && !(l.group in sub.hours)) err(id, sub.name + ' не се учи в ' + (stage.groups[l.group] || l.group) + '.');
     })();
+    if (l.before && !store[l.before]) err(id, 'before сочи към урок „' + l.before + '“, който не съществува.');
     if (l.after && !store[l.after]) err(id, 'after сочи към урок „' + l.after + '“, който не съществува.');
 
     if (!Array.isArray(l.sections) || !l.sections.length) err(id, 'Няма sections (части на урока).');
