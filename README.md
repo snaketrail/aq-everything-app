@@ -32,6 +32,12 @@ Settings → Pages → Source: "Deploy from a branch" → pick the branch and `/
 Topics follow **Наредба № 5 от 3 юни 2016 г. за предучилищното образование** (consolidated text, 2021): seven
 educational areas, each split into образователни ядра, with expected results for 1.–4. група.
 
+## Planned hours
+
+Each school subject has `hours: { grade: N }`, the yearly hours from the curriculum. For 1.–7. клас these are the official
+numbers from the framework plan (Наредба № 4 от 2015 г., Приложение № 1, as amended in 2020–2022). For 8.–12. клас they
+are still estimates (weekly hours × school weeks).
+
 ## Primary curriculum (1.–4. клас)
 
 Lessons follow the МОН subject programmes. Topic order for each grade was checked against openly published

@@ -1,4 +1,4 @@
-// 1. клас, Околен свят.
+// 1. клас, Родинознание.
 window.LESSONS = window.LESSONS || {};
 
 (function () {
