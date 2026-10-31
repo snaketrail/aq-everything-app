@@ -1514,3 +1514,6 @@ body[data-theme="high"] .tasks .option::before { content: counter(opt, upper-alp
   .pic-rows { font-size: min(2.6rem, 6vw); }
   .pic-row { gap: 4px; }
 }
+
+/* Дълги думи в заглавията (напр. „противоположности“) да се пренасят на тесен екран. */
+.lesson-head h1, .section-title, h1, h2 { overflow-wrap: anywhere; hyphens: auto; }
