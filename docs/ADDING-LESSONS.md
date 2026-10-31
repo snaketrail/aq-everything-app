@@ -177,6 +177,10 @@ Open **`check.html`**: `https://<your-github-name>.github.io/aq-everything-app/c
 
 Then open the lesson itself on the site and click through it once.
 
+If you have Node and Playwright installed, `node tools/test-lessons.js <id-prefix>` plays every matching lesson in a real
+browser. It answers every task correctly, then checks for errors, missing stars and pages wider than a phone. Start
+`python3 -m http.server 8123` first.
+
 ## Writing lessons with an AI chat
 
 Any AI chat (Claude, ChatGPT, Gemini…) can write lessons in this format. Paste this, fill in the brackets, and paste the answer into the right file:

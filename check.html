@@ -100,9 +100,10 @@
       const w = 'Задача ' + (ti + 1);
       if (!t.question) err(id, w + ': липсва question.');
       if (!Array.isArray(t.options) || t.options.length < 2) { err(id, w + ': трябват поне 2 options.'); return; }
-      const values = t.options.map((o) => String(o && typeof o === 'object' ? o.value : o));
-      if (new Set(values).size !== values.length) err(id, w + ': два еднакви отговора в options.');
-      if (!values.includes(String(t.answer))) err(id, w + ': answer „' + t.answer + '“ го няма в options.');
+      const values = t.options.map((o) => (o && typeof o === 'object' ? o.value : o));
+      if (new Set(values.map(String)).size !== values.length) err(id, w + ': два еднакви отговора в options.');
+      if (!values.includes(t.answer)) err(id, w + ': answer „' + t.answer + '“ го няма в options' +
+        (values.map(String).includes(String(t.answer)) ? ' (число и текст се различават: 3 не е същото като \'3\')' : '') + '.');
       checkPicture(id, w, t.picture);
     });
   }
