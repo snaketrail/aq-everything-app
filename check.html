@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проверка на уроците</title>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; max-width: 960px; margin: 2em auto; padding: 0 1em; color: #222; }
+  h1 { margin-bottom: .2em; }
+  .ok { color: #137333; } .bad { color: #b3261e; } .warn { color: #8a5a00; }
+  li { margin: .25em 0; }
+  code { background: #f3f3f3; padding: 0 .3em; border-radius: 4px; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 14px; }
+  th, td { border: 1px solid #ddd; padding: .3em .5em; text-align: left; }
+  th { background: #f7f7f7; }
+  td.n { text-align: right; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<h1>Проверка на уроците</h1>
+<p>Тази страница зарежда всички уроци от <code>index.html</code> и търси грешки. Отвори я след всяка промяна.</p>
+<div id="out">Проверявам…</div>
+
+<script>
+(function () {
+  'use strict';
+  const errors = [];
+  const warnings = [];
+  const err = (id, msg) => errors.push([id, msg]);
+  const warn = (id, msg) => warnings.push([id, msg]);
+
+  // Хващаме уроци с едно и също id: вторият иначе тихо би заменил първия.
+  const store = {};
+  window.LESSONS = new Proxy(store, {
+    set(target, id, value) {
+      if (id in target) err(id, 'Има два урока с това id. Вторият заменя първия — смени id на единия.');
+      target[id] = value;
+      return true;
+    }
+  });
+
+  // Синтактични грешки във файловете (липсваща запетая, кавичка и т.н.).
+  window.addEventListener('error', (e) => {
+    if (e.filename) err(e.filename.split('/').slice(-2).join('/') + ':' + e.lineno, 'Грешка в кода: ' + e.message);
+  });
+
+  const load = (src) => new Promise((resolve) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = () => { err(src, 'Файлът липсва (провери пътя в index.html).'); resolve(); };
+    document.head.appendChild(s);
+  });
+
+  const BLOCKS = {
+    say: ['text'], text: ['text'], rule: ['text'], list: ['items'], table: ['rows'], code: ['code'],
+    timeline: ['items'], cards: ['items'], story: ['panels'], picture: ['picture'], numbers: ['items'],
+    countAlong: ['count', 'emoji'], tones: ['items'], draw: []
+  };
+  const PICTURE_KEYS = ['pic', 'emoji', 'sequence', 'scene', 'rows', 'bars', 'grid'];
+
+  function checkPicture(id, where, p) {
+    if (p == null || typeof p === 'string') return;
+    if (!PICTURE_KEYS.some((k) => k in p)) err(id, where + ': картинката трябва да има едно от ' + PICTURE_KEYS.join(', ') + '.');
+    if ('emoji' in p && typeof p.count !== 'number') err(id, where + ': { emoji, count } — count трябва да е число.');
+  }
+
+  function checkLesson(id, l, stages) {
+    if (!/^[a-z0-9-]+$/.test(id)) err(id, 'id трябва да е само с малки латински букви, цифри и тирета.');
+    ['stage', 'subject', 'title', 'intro'].forEach((k) => { if (!l[k]) err(id, 'Липсва ' + k + '.'); });
+    if (!l.emoji) warn(id, 'Няма emoji (картинка за урока).');
+    (function placement() {
+      const stage = stages.find((s) => s.id === l.stage);
+      if (!stage) return err(id, 'Непознат stage „' + l.stage + '“. Може: ' + stages.map((s) => s.id).join(', ') + '.');
+      const sub = stage.subjects.find((s) => s.id === l.subject);
+      if (!sub) return err(id, 'Непознат subject „' + l.subject + '“ за ' + l.stage + '. Може: ' + stage.subjects.map((s) => s.id).join(', ') + '.');
+      if (stage.groups && Object.keys(stage.groups).length && !(l.group in stage.groups)) err(id, 'group ' + l.group + ' не съществува. Може: ' + Object.keys(stage.groups).join(', ') + '.');
+      else if (sub.hours && !(l.group in sub.hours)) err(id, sub.name + ' не се учи в ' + (stage.groups[l.group] || l.group) + '.');
+    })();
+    if (l.after && !store[l.after]) err(id, 'after сочи към урок „' + l.after + '“, който не съществува.');
+
+    if (!Array.isArray(l.sections) || !l.sections.length) err(id, 'Няма sections (части на урока).');
+    (l.sections || []).forEach((sec, si) => {
+      const where = 'Част ' + (si + 1);
+      if (!sec.title) warn(id, where + ': няма заглавие.');
+      if (!Array.isArray(sec.blocks)) { err(id, where + ': липсва blocks: [ ... ].'); return; }
+      sec.blocks.forEach((b, bi) => {
+        const w = where + ', блок ' + (bi + 1);
+        if (!BLOCKS[b.type]) { err(id, w + ': непознат type „' + b.type + '“. Може: ' + Object.keys(BLOCKS).join(', ') + '.'); return; }
+        BLOCKS[b.type].forEach((k) => { if (b[k] == null) err(id, w + ' (' + b.type + '): липсва ' + k + '.'); });
+        if (b.type === 'picture') checkPicture(id, w, b.picture);
+        if (b.type === 'table' && b.head && b.rows) b.rows.forEach((r, ri) => {
+          if (r.length !== b.head.length) warn(id, w + ': ред ' + (ri + 1) + ' има ' + r.length + ' клетки, а заглавието ' + b.head.length + '.');
+        });
+      });
+    });
+
+    if (!Array.isArray(l.tasks) || !l.tasks.length) err(id, 'Няма tasks (задачи).');
+    (l.tasks || []).forEach((t, ti) => {
+      const w = 'Задача ' + (ti + 1);
+      if (!t.question) err(id, w + ': липсва question.');
+      if (!Array.isArray(t.options) || t.options.length < 2) { err(id, w + ': трябват поне 2 options.'); return; }
+      const values = t.options.map((o) => String(o && typeof o === 'object' ? o.value : o));
+      if (new Set(values).size !== values.length) err(id, w + ': два еднакви отговора в options.');
+      if (!values.includes(String(t.answer))) err(id, w + ': answer „' + t.answer + '“ го няма в options.');
+      checkPicture(id, w, t.picture);
+    });
+  }
+
+  fetch('index.html').then((r) => r.text()).then(async (html) => {
+    const srcs = [...html.matchAll(/<script src="([^"]+)"/g)].map((m) => m[1])
+      .filter((s) => !/app\.js|emoji\.js|birthday\.js/.test(s));
+    for (const src of srcs) await load(src);
+
+    const stages = (window.CURRICULUM || { stages: [] }).stages;
+    Object.keys(store).forEach((id) => checkLesson(id, store[id], stages));
+
+    // Теми в curriculum.js, които сочат към несъществуващ урок.
+    const linked = new Set();
+    stages.forEach((st) => st.subjects.forEach((sub) => sub.topics.forEach((t) => {
+      if (!t.lessonId) return;
+      linked.add(t.lessonId);
+      if (!store[t.lessonId]) err('curriculum.js', st.name + ' / ' + sub.name + ': темата „' + t.title + '“ сочи към урок „' + t.lessonId + '“, който не съществува.');
+    })));
+
+    // Брой уроци по предмет и клас спрямо часовете по учебен план.
+    let rows = '';
+    stages.forEach((st) => st.subjects.forEach((sub) => {
+      Object.keys(sub.hours || {}).forEach((g) => {
+        const n = Object.values(store).filter((l) => l.stage === st.id && l.subject === sub.id && String(l.group) === g).length;
+        const h = sub.hours[g];
+        rows += `<tr><td>${st.name}</td><td>${(st.groups && st.groups[g]) || g}</td><td>${sub.name}</td><td class="n">${n}</td><td class="n">${h}</td><td class="n">${Math.round(n / h * 100)}%</td></tr>`;
+      });
+    }));
+
+    const list = (arr, cls) => '<ul>' + arr.map(([id, m]) => `<li class="${cls}"><b>${id}</b>: ${m}</li>`).join('') + '</ul>';
+    const total = Object.keys(store).length;
+    document.getElementById('out').innerHTML =
+      (errors.length ? `<h2 class="bad">❌ ${errors.length} грешки</h2>${list(errors, 'bad')}` : `<h2 class="ok">✅ Няма грешки</h2>`) +
+      (warnings.length ? `<h3 class="warn">Забележки (${warnings.length})</h3>${list(warnings, 'warn')}` : '') +
+      `<p>Уроци общо: <b>${total}</b>, без тема в curriculum.js (показват се сами): <b>${Object.keys(store).filter((id) => !linked.has(id)).length}</b>.</p>` +
+      `<h2>Уроци спрямо учебния план</h2><table><thead><tr><th>Етап</th><th>Клас</th><th>Предмет</th><th>Уроци</th><th>Часа</th><th>%</th></tr></thead><tbody>${rows}</tbody></table>`;
+  });
+})();
+</script>
+</body>
+</html>

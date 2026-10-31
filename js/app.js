@@ -6,6 +6,18 @@
   const CONFIG = window.APP_CONFIG || {};
   const app = document.getElementById('app');
 
+  // Нов урок, към който никоя тема в curriculum.js не сочи, се показва сам
+  // в своя предмет: след темата с урок `after`, ако е зададен, иначе най-отзад.
+  Object.entries(LESSONS).forEach(([id, l]) => {
+    const sub = (STAGES.find((s) => s.id === l.stage) || { subjects: [] }).subjects.find((s) => s.id === l.subject);
+    if (!sub) { console.warn('Урок ' + id + ': няма предмет ' + l.stage + '/' + l.subject); return; }
+    if (sub.topics.some((t) => t.lessonId === id)) return;
+    const topic = { group: l.group, title: l.title, core: l.core || 'Още уроци', lessonId: id };
+    const at = l.after ? sub.topics.findIndex((t) => t.lessonId === l.after) : -1;
+    if (at >= 0) sub.topics.splice(at + 1 + sub.topics.slice(at + 1).filter((t) => t.after === l.after).length, 0, Object.assign(topic, { after: l.after }));
+    else sub.topics.push(topic);
+  });
+
   const NUMBER_WORDS = ['нула', 'едно', 'две', 'три', 'четири', 'пет', 'шест', 'седем', 'осем', 'девет', 'десет'];
   const PRAISE = ['Браво! 🎉', 'Супер! ⭐', 'Точно така! 🌈', 'Умница! 💛', 'Чудесно! 🎈'];
 

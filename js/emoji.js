@@ -5,6 +5,7 @@
   'use strict';
 
   const BASE = 'assets/emoji/';
+  const CDN = 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/';
   const FILES = new Set(window.EMOJI_FILES || []);
   const RE = /\p{RI}\p{RI}|\p{Extended_Pictographic}(?:️|[\u{1F3FB}-\u{1F3FF}])*(?:‍\p{Extended_Pictographic}(?:️|[\u{1F3FB}-\u{1F3FF}])*)*/gu;
   const SKIP = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'TITLE', 'OPTION']);
@@ -27,11 +28,13 @@
     let changed = false;
     for (const m of text.matchAll(RE)) {
       const name = fileName(m[0]);
-      if (!FILES.has(name)) continue;
       if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
       const img = document.createElement('img');
       img.className = 'emo';
-      img.src = BASE + name + '.svg';
+      // Ново емоджи, което още не е копирано в assets/emoji/: взимаме го от интернет.
+      // Ако и там го няма, остава обикновеното емоджи на устройството.
+      img.src = FILES.has(name) ? BASE + name + '.svg' : CDN + name + '.svg';
+      if (!FILES.has(name)) img.onerror = () => img.replaceWith(document.createTextNode(img.alt));
       img.alt = m[0];
       img.draggable = false;
       frag.appendChild(img);
@@ -44,7 +47,7 @@
   }
 
   function emojify(root) {
-    if (!FILES.size || !root) return;
+    if (!root) return;
     if (root.nodeType === Node.TEXT_NODE) {
       if (root.parentNode && !SKIP.has(root.parentNode.nodeName)) replaceIn(root);
       return;

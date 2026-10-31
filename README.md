@@ -57,22 +57,19 @@ a `code` block (`{ type: 'code', lang: 'python', code: '…' }`).
 
 ## Adding a lesson
 
-1. Copy any file in `js/lessons/` and change the id and content.
-2. Add a `<script>` tag for it in `index.html`.
-3. Set `lessonId` on the matching topic in `js/curriculum.js`.
-4. If you used new emoji, refresh the drawings:
+See **[docs/ADDING-LESSONS.md](docs/ADDING-LESSONS.md)**: a template, every block and task type, and a prompt for writing
+lessons with an AI chat. In short:
+1. Paste a lesson into a file in `js/lessons/`.
+2. Open `check.html`.
+
+A lesson that no topic in `curriculum.js` points to appears in its subject by itself.
+
+Emoji that aren't in `assets/emoji/` yet load from the Twemoji CDN. To bundle them, run:
 
 ```bash
 npm install --prefix /tmp/tw @twemoji/svg@15.0.0
 node tools/sync-emoji.js /tmp/tw/node_modules/@twemoji/svg
 ```
-
-Block types: `say`, `text`, `numbers`, `countAlong` (tap-to-count), `cards` (picture cards, read aloud on tap),
-`story` (numbered panels), `picture`, `tones` (buttons that play short melodies).
-
-Pictures: `{ emoji, count }`, `{ sequence: [...] }`, `{ pic: '☀️' }` or `{ scene: [{ pic, x, y, size }] }`.
-
-Tasks are multiple choice: `question`, optional `picture` or `sound`, `options` (plain values or `{ value, label, pic, size }`), `answer`, `hint`.
 
 Progress (stars) is saved in the browser's `localStorage`.
 
