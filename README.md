@@ -1,5 +1,9 @@
 # Уча с радост 🦉
 
+**🌐 Сайтът: https://snaketrail.github.io/aq-everything-app/**
+
+Проверка на уроците: https://snaketrail.github.io/aq-everything-app/check.html
+
 A static learning site (in Bulgarian) that follows the Bulgarian school system, from kindergarten to 12th grade. It has no database and no build step, and GitHub Pages serves it as-is.
 
 ## Run locally
