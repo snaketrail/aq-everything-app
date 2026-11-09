@@ -268,7 +268,7 @@
       <section class="hero">
         <div class="hero-owl" aria-hidden="true">🦉</div>
         <h1>Какво ще учим днес?</h1>
-        <p class="lead">Уроци, примери и задачи по всеки предмет от детската градина до 12. клас.</p>
+        <p class="lead">Уроци, примери и задачи от детската градина до 12. клас — и след това.</p>
         ${age ? `<p class="age-pill">🍼 ${name} е на <strong>${esc(age.label)}</strong> — пътешествието започва!</p>` : ''}
       </section>
 
@@ -278,7 +278,7 @@
 
       <section class="after-school" aria-labelledby="after-title">
         <h2 id="after-title">След училище</h2>
-        <p class="lead">Университет и Бизнес са готови. Живот идва скоро.</p>
+        <p class="lead">Всичко, което идва след училище: изборът на път, умения за живота и собствен бизнес.</p>
         <div class="stage-grid">
           ${STAGES.filter((s) => s.group === 'after').map((s) => stageCard(s, nowId)).join('')}
         </div>
