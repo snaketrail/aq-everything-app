@@ -278,7 +278,7 @@
 
       <section class="after-school" aria-labelledby="after-title">
         <h2 id="after-title">След училище</h2>
-        <p class="lead">Университетът е готов: как Ая да избере своя път. Живот и Бизнес идват скоро.</p>
+        <p class="lead">Университет и Бизнес са готови. Живот идва скоро.</p>
         <div class="stage-grid">
           ${STAGES.filter((s) => s.group === 'after').map((s) => stageCard(s, nowId)).join('')}
         </div>
