@@ -278,7 +278,7 @@
 
       <section class="after-school" aria-labelledby="after-title">
         <h2 id="after-title">След училище</h2>
-        <p class="lead">Тези раздели ще ги подготвим, след като завършим училищните етапи.</p>
+        <p class="lead">Университетът е готов: как Ая да избере своя път. Живот и Бизнес идват скоро.</p>
         <div class="stage-grid">
           ${STAGES.filter((s) => s.group === 'after').map((s) => stageCard(s, nowId)).join('')}
         </div>
@@ -289,7 +289,7 @@
     return `
       <a class="stage-card" data-stage="${s.id}" href="#/stage/${s.id}">
         ${s.id === nowId ? '<span class="now-badge">Сега сме тук</span>' : ''}
-        ${s.group === 'after' ? '<span class="soon-badge">Скоро</span>' : ''}
+        ${s.group === 'after' && !s.subjects.some((sub) => sub.topics.length) ? '<span class="soon-badge">Скоро</span>' : ''}
         <span class="stage-emoji" aria-hidden="true">${s.emoji}</span>
         <span class="stage-name">${esc(s.name)}</span>
         <span class="stage-meta">${esc(s.grades)} · ${esc(s.ages)}</span>
@@ -565,7 +565,7 @@
     const list = (topics) => {
       if (L === 'kg') return `<div class="kg-cards" style="--c:${subject.color}">${topics.map(kgCard).join('')}</div>`;
       if (L === 'primary') return `<ol class="nb-page" style="--c:${subject.color}">${topics.map((t, i) => nbRow(t, i)).join('')}</ol>`;
-      if (L === 'middle' || L === 'high') {
+      {
         // Обединяваме по раздели (ядра), както в учебниците.
         const units = [];
         topics.forEach((t) => {
@@ -575,7 +575,7 @@
           u.items.push(t);
         });
         let n = 0;
-        return units.map((u, ui) => L === 'high' ? `
+        return units.map((u, ui) => L !== 'middle' ? `
           <section class="book-chapter">
             <h3><span>Глава ${ROMAN[ui] || ui + 1}</span>${esc(u.key)}</h3>
             <ol class="book-lessons">${u.items.map((t) => bookRow(t, ++n)).join('')}</ol>
@@ -585,7 +585,6 @@
             <ul class="app-rows">${u.items.map((t) => appRow(t, ++n)).join('')}</ul>
           </section>`).join('');
       }
-      return `<ol class="topic-list" style="--c:${subject.color}">${topics.map(topicItem).join('')}</ol>`;
     };
     if (!stage.groups || !subject.topics.some((t) => t.group)) return list(subject.topics);
 

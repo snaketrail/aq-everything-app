@@ -760,21 +760,18 @@ window.CURRICULUM = {
       theme: 'uni',
       group: 'after',
       name: 'Университет',
-      grades: 'Бакалавър и магистър',
+      grades: 'Изборът след училище',
       ages: '18+ години',
       minAge: 20,
       maxAge: 24,
       emoji: '🏛️',
-      description: 'Кандидатстване, избор на специалност и основите на висшето образование.',
+      description: 'Как Ая да избере своя път: какво я влече, какви са възможностите и как да реши.',
       subjects: [
-        { id: 'apply', name: 'Кандидатстване и избор на специалност', emoji: '🧭', color: '#7c2d12', topics: [] },
-        { id: 'math', name: 'Висша математика', emoji: '∫', color: '#1e3a8a', topics: [] },
-        { id: 'cs', name: 'Програмиране и компютърни науки', emoji: '👩‍💻', color: '#0f766e', topics: [] },
-        { id: 'sciences', name: 'Природни науки', emoji: '🔬', color: '#166534', topics: [] },
-        { id: 'humanities', name: 'Хуманитарни науки', emoji: '📜', color: '#6b21a8', topics: [] },
-        { id: 'econ', name: 'Икономика', emoji: '📈', color: '#b45309', topics: [] },
-        { id: 'law', name: 'Право', emoji: '⚖️', color: '#374151', topics: [] },
-        { id: 'skills', name: 'Как да учим: изпити, курсови работи, проекти', emoji: '📝', color: '#be123c', topics: [] }
+        { id: 'self', name: 'Опознай себе си', emoji: '🪞', color: '#be185d', topics: [] },
+        { id: 'paths', name: 'Пътищата след 12. клас', emoji: '🛤️', color: '#0f766e', topics: [] },
+        { id: 'decide', name: 'Как да решиш', emoji: '🧭', color: '#7c2d12', topics: [] },
+        { id: 'apply', name: 'Кандидатстване', emoji: '📨', color: '#1e3a8a', topics: [] },
+        { id: 'skills', name: 'Първата година', emoji: '🎒', color: '#6b21a8', topics: [] }
       ]
     },
     {
