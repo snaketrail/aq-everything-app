@@ -761,7 +761,7 @@ window.CURRICULUM = {
       group: 'after',
       name: 'Университет',
       grades: 'Изборът след училище',
-      ages: '18+ години',
+      ages: 'от 11. клас нататък',
       minAge: 20,
       maxAge: 24,
       emoji: '🏛️',
